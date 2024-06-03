@@ -26,16 +26,16 @@ The diagram below shows that the ATD lab topology has two data centers. We will 
 
 | Device          | IP Address   |
 | --------------- | ------------ |
-| spine-1         | 192.168.0.10 |
-| spine-2         | 192.168.0.11 |
-| leaf1a          | 192.168.0.12 |
-| leaf1b          | 192.168.0.13 |
-| leaf2a          | 192.168.0.14 |
-| leaf3a          | 192.168.0.15 |
-| leaf3b          | 192.168.0.16 |
-| member-leaf-3c  | 192.168.0.17 |
-| member-leaf-3d  | 192.168.0.17 |
-| member-leaf-3e  | 192.168.0.17 |
+| spine-1         | 192.168.0.12 |
+| spine-2         | 192.168.0.13 |
+| leaf1a          | 192.168.0.14 |
+| leaf1b          | 192.168.0.15 |
+| leaf2a          | 192.168.0.16 |
+| leaf3a          | 192.168.0.17 |
+| leaf3b          | 192.168.0.18 |
+| member-leaf-3c  | 192.168.0.19 |
+| member-leaf-3d  | 192.168.0.20 |
+| member-leaf-3e  | 192.168.0.21 |
 
 > Current repository is built with cEOS management interface (`Management0`). If you run a vEOS topology, please update `mgmt_interface` field to `Management1` in the [ATD_LAB](./atd-inventory/group_vars/ATD_LAB.yml) `group_vars`.
 
@@ -70,6 +70,8 @@ ansible-galaxy collection install arista.avd:==4.4.0
 # Ensure AVD python requirements are up-to-date
 export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
 pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
+
+# Clone repository to your local ATD
 git clone https://github.com/arista-netdevops-community/atd-avd.git
 cd atd-avd
 ```

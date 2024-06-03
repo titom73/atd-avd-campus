@@ -1,4 +1,4 @@
-hostname: leaf-2a
+hostname: leaf-3e
 is_deployed: true
 static_routes:
 - vrf: default
@@ -28,7 +28,7 @@ management_interfaces:
   description: oob_management
   shutdown: false
   vrf: default
-  ip_address: 192.168.0.16/24
+  ip_address: 192.168.0.21/24
   gateway: 192.168.0.1
   type: oob
 management_api_http:
@@ -37,20 +37,20 @@ management_api_http:
   enable_https: true
 ethernet_interfaces:
 - name: Ethernet49
-  peer: spine-1
-  peer_interface: Ethernet4
-  peer_type: l3spine
-  description: SPINE-1_Ethernet4
+  peer: leaf-3a
+  peer_interface: Ethernet53/1
+  peer_type: leaf
+  description: LEAF-3A_Ethernet53/1
   shutdown: false
   type: port-channel-member
   channel_group:
     id: 49
     mode: active
 - name: Ethernet50
-  peer: spine-2
-  peer_interface: Ethernet4
-  peer_type: l3spine
-  description: SPINE-2_Ethernet4
+  peer: leaf-3b
+  peer_interface: Ethernet53/1
+  peer_type: leaf
+  description: LEAF-3B_Ethernet53/1
   shutdown: false
   type: port-channel-member
   channel_group:
@@ -58,7 +58,7 @@ ethernet_interfaces:
     mode: active
 port_channel_interfaces:
 - name: Port-Channel49
-  description: CAMPUS_SPINES_Po4
+  description: IDF3_AGG_Po531
   type: switched
   shutdown: false
   mode: trunk
@@ -66,4 +66,4 @@ port_channel_interfaces:
 ip_igmp_snooping:
   globally_enabled: true
 metadata:
-  platform: 720XP
+  platform: cEOSLab

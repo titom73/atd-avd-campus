@@ -1,4 +1,4 @@
-# leaf-2a
+# leaf-3e
 
 ## Table of Contents
 
@@ -37,7 +37,7 @@
 
 | Management Interface | Description | Type | VRF | IP Address | Gateway |
 | -------------------- | ----------- | ---- | --- | ---------- | ------- |
-| Management0 | oob_management | oob | default | 192.168.0.16/24 | 192.168.0.1 |
+| Management0 | oob_management | oob | default | 192.168.0.21/24 | 192.168.0.1 |
 
 ##### IPv6
 
@@ -52,7 +52,7 @@
 interface Management0
    description oob_management
    no shutdown
-   ip address 192.168.0.16/24
+   ip address 192.168.0.21/24
 ```
 
 ### DNS Domain
@@ -153,8 +153,8 @@ vlan internal order ascending range 1006 1199
 
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | Channel-Group |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
-| Ethernet49 | SPINE-1_Ethernet4 | *trunk | *none | *- | *- | 49 |
-| Ethernet50 | SPINE-2_Ethernet4 | *trunk | *none | *- | *- | 49 |
+| Ethernet49 | LEAF-3A_Ethernet53/1 | *trunk | *none | *- | *- | 49 |
+| Ethernet50 | LEAF-3B_Ethernet53/1 | *trunk | *none | *- | *- | 49 |
 
 *Inherited from Port-Channel Interface
 
@@ -163,12 +163,12 @@ vlan internal order ascending range 1006 1199
 ```eos
 !
 interface Ethernet49
-   description SPINE-1_Ethernet4
+   description LEAF-3A_Ethernet53/1
    no shutdown
    channel-group 49 mode active
 !
 interface Ethernet50
-   description SPINE-2_Ethernet4
+   description LEAF-3B_Ethernet53/1
    no shutdown
    channel-group 49 mode active
 ```
@@ -181,14 +181,14 @@ interface Ethernet50
 
 | Interface | Description | Type | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
 | --------- | ----------- | ---- | ---- | ----- | ----------- | ------------| --------------------- | ------------------ | ------- | -------- |
-| Port-Channel49 | CAMPUS_SPINES_Po4 | switched | trunk | none | - | - | - | - | - | - |
+| Port-Channel49 | IDF3_AGG_Po531 | switched | trunk | none | - | - | - | - | - | - |
 
 #### Port-Channel Interfaces Device Configuration
 
 ```eos
 !
 interface Port-Channel49
-   description CAMPUS_SPINES_Po4
+   description IDF3_AGG_Po531
    no shutdown
    switchport
    switchport trunk allowed vlan none

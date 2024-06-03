@@ -1,38 +1,61 @@
 ---
 # inventory.yml
-DC1:
+LAB:
   children:
-    DC1_FABRIC:
+    CV_SERVERS:
+      hosts:
+        cv_atd1:
+          ansible_host: 192.168.0.5
+          cv_collection: v3
+    ATD:
       children:
-        DC1_SPINES:
-          hosts:
-            spine-1:
-              ansible_host: 192.168.0.12
-            spine-2:
-              ansible_host: 192.168.0.13
-        DC1_LEAFS:
-          hosts:
-            leaf-1a:
-              ansible_host: 192.168.0.14 
-            leaf-1b:
-              ansible_host: 192.168.0.15
-            leaf-2a:
-              ansible_host: 192.168.0.16
-            leaf-3a:
-              ansible_host: 192.168.0.17
-            leaf-3b:
-              ansible_host: 192.168.0.18
-            member-leaf-3c:
-              ansible_host: 192.168.0.19
-            member-leaf-3d:
-              ansible_host: 192.168.0.20
-            member-leaf-3e:
-              ansible_host: 192.168.0.21
-    DC1_NETWORK_SERVICES:
-      children:
-        DC1_LEAFS:
-        DC1_SPINES:
-    DC1_NETWORK_PORTS:
-      children:
-        DC1_LEAFS:
-        DC1_SPINES:
+        CAMPUS:
+          children:
+            CAMPUS_SPINES:
+              vars:
+                type: l3spine
+              hosts:
+                spine-1:
+                  ansible_host: 192.168.0.12
+                spine-2:
+                  ansible_host: 192.168.0.13
+            CAMPUS_LEAVES:
+              vars:
+                type: leaf
+              children:
+                IDF1:
+                  hosts:
+                    leaf-1a:
+                      ansible_host: 192.168.0.14
+                    leaf-1b:
+                      ansible_host: 192.168.0.15
+                IDF2:
+                  hosts:
+                    leaf-2a:
+                      ansible_host: 192.168.0.16
+                IDF3_AGG:
+                  hosts:
+                    leaf-3a:
+                      ansible_host: 192.168.0.17
+                    leaf-3b:
+                      ansible_host: 192.168.0.18
+                IDF3_3C:
+                  hosts:
+                    leaf-3c:
+                      ansible_host: 192.168.0.19
+                IDF3_3D:
+                  hosts:
+                    leaf-3d:
+                      ansible_host: 192.168.0.20
+                IDF3_3E:
+                  hosts:
+                    leaf-3e:
+                      ansible_host: 192.168.0.21
+
+            CAMPUS_SERVICES:
+              children:
+                CAMPUS_LEAVES:
+                CAMPUS_SPINES:
+            # CAMPUS_PORTS:
+            #   children:
+            #     CAMPUS_LEAVES:

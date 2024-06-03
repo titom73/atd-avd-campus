@@ -1,4 +1,4 @@
-# DC1_FABRIC
+# CAMPUS
 
 ## Table of Contents
 
@@ -17,16 +17,16 @@
 
 | POD | Type | Node | Management IP | Platform | Provisioned in CloudVision | Serial Number |
 | --- | ---- | ---- | ------------- | -------- | -------------------------- | ------------- |
-| DC1_FABRIC | leaf | leaf-1a | 192.168.0.14/24 | cEOSLab | Provisioned | - |
-| DC1_FABRIC | leaf | leaf-1b | 192.168.0.15/24 | cEOSLab | Provisioned | - |
-| DC1_FABRIC | leaf | leaf-2a | 192.168.0.16/24 | cEOSLab | Provisioned | - |
-| DC1_FABRIC | leaf | leaf-3a | 192.168.0.17/24 | cEOSLab | Provisioned | - |
-| DC1_FABRIC | leaf | leaf-3b | 192.168.0.18/24 | cEOSLab | Provisioned | - |
-| DC1_FABRIC | leaf | member-leaf-3c | 192.168.0.19/24 | cEOSLab | Provisioned | - |
-| DC1_FABRIC | leaf | member-leaf-3d | 192.168.0.20/24 | cEOSLab | Provisioned | - |
-| DC1_FABRIC | leaf | member-leaf-3e | 192.168.0.21/24 | cEOSLab | Provisioned | - |
-| DC1_FABRIC | l3spine | spine-1 | 192.168.0.12/24 | cEOSLab | Provisioned | - |
-| DC1_FABRIC | l3spine | spine-2 | 192.168.0.13/24 | cEOSLab | Provisioned | - |
+| CAMPUS | leaf | leaf-1a | 192.168.0.14/24 | cEOSLab | Provisioned | - |
+| CAMPUS | leaf | leaf-1b | 192.168.0.15/24 | cEOSLab | Provisioned | - |
+| CAMPUS | leaf | leaf-2a | 192.168.0.16/24 | 720XP | Provisioned | - |
+| CAMPUS | leaf | leaf-3a | 192.168.0.17/24 | cEOSLab | Provisioned | - |
+| CAMPUS | leaf | leaf-3b | 192.168.0.18/24 | cEOSLab | Provisioned | - |
+| CAMPUS | leaf | leaf-3c | 192.168.0.19/24 | cEOSLab | Provisioned | - |
+| CAMPUS | leaf | leaf-3d | 192.168.0.20/24 | cEOSLab | Provisioned | - |
+| CAMPUS | leaf | leaf-3e | 192.168.0.21/24 | cEOSLab | Provisioned | - |
+| CAMPUS | l3spine | spine-1 | 192.168.0.12/24 | cEOSLab | Provisioned | - |
+| CAMPUS | l3spine | spine-2 | 192.168.0.13/24 | cEOSLab | Provisioned | - |
 
 > Provision status is based on Ansible inventory declaration and do not represent real status from CloudVision.
 
@@ -43,20 +43,20 @@
 | leaf | leaf-1a | Ethernet48 | mlag_peer | leaf-1b | Ethernet48 |
 | leaf | leaf-1a | Ethernet49 | l3spine | spine-1 | Ethernet3 |
 | leaf | leaf-1b | Ethernet49 | l3spine | spine-2 | Ethernet3 |
-| leaf | leaf-2a | Ethernet1/1 | l3spine | spine-1 | Ethernet4 |
-| leaf | leaf-2a | Ethernet2/1 | l3spine | spine-2 | Ethernet4 |
+| leaf | leaf-2a | Ethernet49 | l3spine | spine-1 | Ethernet4 |
+| leaf | leaf-2a | Ethernet50 | l3spine | spine-2 | Ethernet4 |
 | leaf | leaf-3a | Ethernet47 | mlag_peer | leaf-3b | Ethernet47 |
 | leaf | leaf-3a | Ethernet48 | mlag_peer | leaf-3b | Ethernet48 |
 | leaf | leaf-3a | Ethernet49 | l3spine | spine-1 | Ethernet5 |
 | leaf | leaf-3a | Ethernet50 | l3spine | spine-2 | Ethernet5 |
-| leaf | leaf-3a | Ethernet51 | leaf | member-leaf-3c | Ethernet49 |
-| leaf | leaf-3a | Ethernet52 | leaf | member-leaf-3d | Ethernet49 |
-| leaf | leaf-3a | Ethernet53/1 | leaf | member-leaf-3e | Ethernet49 |
+| leaf | leaf-3a | Ethernet51/1 | leaf | leaf-3c | Ethernet49 |
+| leaf | leaf-3a | Ethernet52/1 | leaf | leaf-3d | Ethernet49 |
+| leaf | leaf-3a | Ethernet53/1 | leaf | leaf-3e | Ethernet49 |
 | leaf | leaf-3b | Ethernet49 | l3spine | spine-1 | Ethernet6 |
 | leaf | leaf-3b | Ethernet50 | l3spine | spine-2 | Ethernet6 |
-| leaf | leaf-3b | Ethernet51 | leaf | member-leaf-3c | Ethernet50 |
-| leaf | leaf-3b | Ethernet52 | leaf | member-leaf-3d | Ethernet50 |
-| leaf | leaf-3b | Ethernet53/1 | leaf | member-leaf-3e | Ethernet50 |
+| leaf | leaf-3b | Ethernet51/1 | leaf | leaf-3c | Ethernet50 |
+| leaf | leaf-3b | Ethernet52/1 | leaf | leaf-3d | Ethernet50 |
+| leaf | leaf-3b | Ethernet53/1 | leaf | leaf-3e | Ethernet50 |
 | l3spine | spine-1 | Ethernet49 | mlag_peer | spine-2 | Ethernet49 |
 | l3spine | spine-1 | Ethernet50 | mlag_peer | spine-2 | Ethernet50 |
 
@@ -82,8 +82,8 @@
 
 | POD | Node | Loopback0 |
 | --- | ---- | --------- |
-| DC1_FABRIC | spine-1 | 172.16.1.1/32 |
-| DC1_FABRIC | spine-2 | 172.16.1.2/32 |
+| CAMPUS | spine-1 | 172.16.1.1/32 |
+| CAMPUS | spine-2 | 172.16.1.2/32 |
 
 ### VTEP Loopback VXLAN Tunnel Source Interfaces (VTEPs Only)
 

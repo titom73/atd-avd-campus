@@ -1,23 +1,26 @@
 hostname: leaf-1a
+is_deployed: true
+static_routes:
+- vrf: default
+  destination_address_prefix: 0.0.0.0/0
+  gateway: 192.168.0.1
 service_routing_protocols_model: multi-agent
 vlan_internal_order:
   allocation: ascending
   range:
     beginning: 1006
     ending: 1199
+ip_name_servers:
+- ip_address: 192.168.2.1
+  vrf: default
+- ip_address: 8.8.8.8
+  vrf: default
 spanning_tree:
   mode: mstp
   mst_instances:
   - id: '0'
     priority: 16384
   no_spanning_tree_vlan: '4094'
-local_users:
-- name: arista
-  privilege: 15
-  role: network-admin
-  sha512_password: $6$LnAjZlsMvAWk38Rz$IudQlxhHP0FJdIhThLLc8lGvKZr9VYYmQbmso9k4GP0sERahsy48jCOVuqBPMNLfeZH1Fdcm7BjkrN.us.v/Y0
-  ssh_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCmmhnaL5nwd6P37UdmIXlc3IdwqGoFSWEVDgrxHK7IQZcBLouVKW2Lec3onmXeRhlOi0MHczrSY8pzQy2EcV0Lsv1y/r+9Agotrb90e5QZyotlKtOiHdxoIRuNUXepI+qPhKiIejordgaaaevfYSPU9qtV0BeDWc+UPeJ2YNEQy9KM5wog7TPJhl52wew6Fgltg4LqsFjeZN5cuifUBbxtbkkuP+tPECD6H6fNDgzqiGAbH0f2e9WMld/LbX+eUvcPPV/kGnmnF98toed6V8E5UiiRVvjSCBrZjojgg31L2uDs79k36gQ3VcRcLRm3TL9LwRb8cYdS1wOlPZqABFDJ
-    arista@christophe-testing-1-bcde41d8-eos.c.beta-atds.internal
 vrfs:
 - name: default
   ip_routing: false
@@ -27,7 +30,7 @@ management_interfaces:
   shutdown: false
   vrf: default
   ip_address: 192.168.0.14/24
-  gateway: null
+  gateway: 192.168.0.1
   type: oob
 management_api_http:
   enable_vrfs:
@@ -41,20 +44,14 @@ vlans:
   - MLAG
 - id: 110
   name: IDF1-Data
-  tenant: MY_FABRIC
-- id: 120
-  name: IDF1-Voice
-  tenant: MY_FABRIC
-- id: 130
-  name: IDF1-Guest
-  tenant: MY_FABRIC
+  tenant: CAMPUS_SERVICES
 vlan_interfaces:
 - name: Vlan4094
   description: MLAG_PEER
   shutdown: false
-  ip_address: 192.168.1.4/31
   no_autostate: true
-  mtu: 1500
+  mtu: 9214
+  ip_address: 192.168.0.4/31
 port_channel_interfaces:
 - name: Port-Channel47
   description: MLAG_PEER_leaf-1b_Po47
@@ -64,11 +61,11 @@ port_channel_interfaces:
   trunk_groups:
   - MLAG
 - name: Port-Channel49
-  description: SPINES_Po3
+  description: CAMPUS_SPINES_Po3
   type: switched
   shutdown: false
   mode: trunk
-  vlans: 110,120,130
+  vlans: '110'
   mlag: 49
 ethernet_interfaces:
 - name: Ethernet47
@@ -101,43 +98,14 @@ ethernet_interfaces:
   channel_group:
     id: 49
     mode: active
-- name: Ethernet1
-  peer: IDF1 Standard Port
-  peer_type: network_port
-  port_profile: PP-DOT1X
-  description: IDF1 Standard Port
-  shutdown: false
-  type: switched
-  mode: trunk phone
-  native_vlan: 110
-  spanning_tree_portfast: edge
-  spanning_tree_bpduguard: enabled
-  dot1x:
-    port_control: auto
-    reauthentication: true
-    pae:
-      mode: authenticator
-    host_mode:
-      mode: multi-host
-      multi_host_authenticated: true
-    mac_based_authentication:
-      enabled: true
-    timeout:
-      reauth_period: server
-      tx_period: 3
-    reauthorization_request_limit: 3
-    authentication_failure:
-      action: allow
-      allow_vlan: 130
-  phone:
-    trunk: untagged
-    vlan: 120
 mlag_configuration:
   domain_id: IDF1
   local_interface: Vlan4094
-  peer_address: 192.168.1.5
+  peer_address: 192.168.0.5
   peer_link: Port-Channel47
   reload_delay_mlag: '300'
   reload_delay_non_mlag: '330'
 ip_igmp_snooping:
   globally_enabled: true
+metadata:
+  platform: cEOSLab

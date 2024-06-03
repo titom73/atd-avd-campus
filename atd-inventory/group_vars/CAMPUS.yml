@@ -1,13 +1,14 @@
----
-### group_vars/DC1_FABRIC.yml
-
-fabric_name: DC1_FABRIC
+fabric_name: CAMPUS
 
 # Set Design Type to L2ls
 design:
   type: l2ls
 
+
+###############################################
 # Ansible connectivity definitions
+###############################################
+
 # eAPI connectivity via HTTPS is specified (as opposed to network_cli via SSH)
 ansible_connection: ansible.netcommon.httpapi
 # Specifies that we are indeed using Arista EOS
@@ -23,6 +24,11 @@ ansible_httpapi_use_ssl: true
 # Do not try to validate certs
 ansible_httpapi_validate_certs: false
 
+
+###############################################
+# Topology Definitions
+###############################################
+
 # Spine Switches
 l3spine:
   defaults:
@@ -35,7 +41,7 @@ l3spine:
     virtual_router_mac_address: 00:1c:73:00:dc:01
     mlag_interfaces: [Ethernet49, Ethernet50]
   node_groups:
-    - group: SPINES
+    - group: CAMPUS_SPINES
       nodes:
         - name: spine-1
           id: 1
@@ -48,11 +54,11 @@ l3spine:
 leaf:
   defaults:
     platform: cEOSLab
-    mlag_peer_ipv4_pool: 192.168.1.0/24
+    mlag_peer_ipv4_pool: 192.168.0.0/24
     spanning_tree_mode: mstp
     spanning_tree_priority: 16384
-#    inband_mgmt_subnet: 10.10.10.0/24
-#    inband_mgmt_vlan: 10
+    # inband_mgmt_subnet: 10.10.10.0/24
+    # inband_mgmt_vlan: 10
   node_groups:
     - group: IDF1
       mlag: true
@@ -71,7 +77,9 @@ leaf:
           mgmt_ip: 192.168.0.15/24
           uplink_switches: [spine-2]
           uplink_switch_interfaces: [Ethernet3]
+
     - group: IDF2
+      platform: 720XP
       mlag: false
       filter:
         tags: [ "210", "220", "230" ]
@@ -79,9 +87,10 @@ leaf:
         - name: leaf-2a
           id: 5
           mgmt_ip: 192.168.0.16/24
-          uplink_interfaces: [Ethernet1/1, Ethernet2/1]
+          uplink_interfaces: [Ethernet49, Ethernet50]
           uplink_switches: [spine-1, spine-2]
           uplink_switch_interfaces: [Ethernet4, Ethernet4]
+
     - group: IDF3_AGG
       mlag: true
       mlag_interfaces: [Ethernet47, Ethernet48]
@@ -103,44 +112,25 @@ leaf:
       uplink_switches: [leaf-3a, leaf-3b]
       uplink_interfaces: [Ethernet49, Ethernet50]
       nodes:
-        - name: member-leaf-3c
+        - name: leaf-3c
           id: 8
           mgmt_ip: 192.168.0.19/24
-          uplink_switch_interfaces: [Ethernet51, Ethernet51]
+          uplink_switch_interfaces: [Ethernet51/1, Ethernet51/1]
     - group: IDF3_3D
       mlag: false
       uplink_switches: [leaf-3a, leaf-3b]
       uplink_interfaces: [Ethernet49, Ethernet50]
       nodes:
-        - name: member-leaf-3d
+        - name: leaf-3d
           id: 9
           mgmt_ip: 192.168.0.20/24
-          uplink_switch_interfaces: [Ethernet52, Ethernet52]
+          uplink_switch_interfaces: [Ethernet52/1, Ethernet52/1]
     - group: IDF3_3E
       mlag: false
       uplink_switches: [leaf-3a, leaf-3b]
       uplink_interfaces: [Ethernet49, Ethernet50]
       nodes:
-        - name: member-leaf-3e
+        - name: leaf-3e
           id: 10
           mgmt_ip: 192.168.0.21/24
           uplink_switch_interfaces: [Ethernet53/1, Ethernet53/1]
-
-
-#### Override for vEOS/cEOS Lab Caveats ####
-p2p_uplinks_mtu: 1500
-
-# Underlay Routing Protocol
-underlay_routing_protocol: ospf
-
-#### WAN/Core Edge Links ####
-core_interfaces:
-  p2p_links:
-    - ip: [ 10.0.0.3/31, 10.0.0.2/31 ]
-      nodes: [ SPINE1, WAN ]
-      interfaces: [ Ethernet1, Ethernet1]
-      include_in_underlay_protocol: true
-    - ip: [ 10.0.0.5/31, 10.0.0.4/31 ]
-      nodes: [ SPINE2, WAN ]
-      interfaces: [ Ethernet2, Ethernet2]
-      include_in_underlay_protocol: true
