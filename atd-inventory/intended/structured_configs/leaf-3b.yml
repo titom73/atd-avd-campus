@@ -1,0 +1,173 @@
+hostname: leaf-3b
+service_routing_protocols_model: multi-agent
+vlan_internal_order:
+  allocation: ascending
+  range:
+    beginning: 1006
+    ending: 1199
+spanning_tree:
+  mode: mstp
+  mst_instances:
+  - id: '0'
+    priority: 16384
+  no_spanning_tree_vlan: '4094'
+local_users:
+- name: arista
+  privilege: 15
+  role: network-admin
+  sha512_password: $6$LnAjZlsMvAWk38Rz$IudQlxhHP0FJdIhThLLc8lGvKZr9VYYmQbmso9k4GP0sERahsy48jCOVuqBPMNLfeZH1Fdcm7BjkrN.us.v/Y0
+  ssh_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCmmhnaL5nwd6P37UdmIXlc3IdwqGoFSWEVDgrxHK7IQZcBLouVKW2Lec3onmXeRhlOi0MHczrSY8pzQy2EcV0Lsv1y/r+9Agotrb90e5QZyotlKtOiHdxoIRuNUXepI+qPhKiIejordgaaaevfYSPU9qtV0BeDWc+UPeJ2YNEQy9KM5wog7TPJhl52wew6Fgltg4LqsFjeZN5cuifUBbxtbkkuP+tPECD6H6fNDgzqiGAbH0f2e9WMld/LbX+eUvcPPV/kGnmnF98toed6V8E5UiiRVvjSCBrZjojgg31L2uDs79k36gQ3VcRcLRm3TL9LwRb8cYdS1wOlPZqABFDJ
+    arista@christophe-testing-1-bcde41d8-eos.c.beta-atds.internal
+vrfs:
+- name: default
+  ip_routing: false
+management_interfaces:
+- name: Management0
+  description: oob_management
+  shutdown: false
+  vrf: default
+  ip_address: 192.168.0.18/24
+  gateway: null
+  type: oob
+management_api_http:
+  enable_vrfs:
+  - name: default
+  enable_https: true
+vlans:
+- id: 4094
+  tenant: system
+  name: MLAG_PEER
+  trunk_groups:
+  - MLAG
+- id: 310
+  name: IDF3-Data
+  tenant: MY_FABRIC
+- id: 320
+  name: IDF3-Voice
+  tenant: MY_FABRIC
+- id: 330
+  name: IDF3-Guest
+  tenant: MY_FABRIC
+vlan_interfaces:
+- name: Vlan4094
+  description: MLAG_PEER
+  shutdown: false
+  ip_address: 192.168.1.11/31
+  no_autostate: true
+  mtu: 1500
+port_channel_interfaces:
+- name: Port-Channel47
+  description: MLAG_PEER_leaf-3a_Po47
+  type: switched
+  shutdown: false
+  mode: trunk
+  trunk_groups:
+  - MLAG
+- name: Port-Channel49
+  description: SPINES_Po5
+  type: switched
+  shutdown: false
+  mode: trunk
+  vlans: 310,320,330
+  mlag: 49
+- name: Port-Channel51
+  description: MEMBER-LEAF-3C_Po49
+  type: switched
+  shutdown: false
+  mode: trunk
+  vlans: 310,320,330
+  mlag: 51
+- name: Port-Channel52
+  description: MEMBER-LEAF-3D_Po49
+  type: switched
+  shutdown: false
+  mode: trunk
+  vlans: 310,320,330
+  mlag: 52
+- name: Port-Channel531
+  description: MEMBER-LEAF-3E_Po49
+  type: switched
+  shutdown: false
+  mode: trunk
+  vlans: 310,320,330
+  mlag: 531
+ethernet_interfaces:
+- name: Ethernet47
+  peer: leaf-3a
+  peer_interface: Ethernet47
+  peer_type: mlag_peer
+  description: MLAG_PEER_leaf-3a_Ethernet47
+  type: port-channel-member
+  shutdown: false
+  channel_group:
+    id: 47
+    mode: active
+- name: Ethernet48
+  peer: leaf-3a
+  peer_interface: Ethernet48
+  peer_type: mlag_peer
+  description: MLAG_PEER_leaf-3a_Ethernet48
+  type: port-channel-member
+  shutdown: false
+  channel_group:
+    id: 47
+    mode: active
+- name: Ethernet49
+  peer: spine-1
+  peer_interface: Ethernet6
+  peer_type: l3spine
+  description: SPINE-1_Ethernet6
+  shutdown: false
+  type: port-channel-member
+  channel_group:
+    id: 49
+    mode: active
+- name: Ethernet50
+  peer: spine-2
+  peer_interface: Ethernet6
+  peer_type: l3spine
+  description: SPINE-2_Ethernet6
+  shutdown: false
+  type: port-channel-member
+  channel_group:
+    id: 49
+    mode: active
+- name: Ethernet51
+  peer: member-leaf-3c
+  peer_interface: Ethernet50
+  peer_type: leaf
+  description: MEMBER-LEAF-3C_Ethernet50
+  shutdown: false
+  type: port-channel-member
+  channel_group:
+    id: 51
+    mode: active
+- name: Ethernet52
+  peer: member-leaf-3d
+  peer_interface: Ethernet50
+  peer_type: leaf
+  description: MEMBER-LEAF-3D_Ethernet50
+  shutdown: false
+  type: port-channel-member
+  channel_group:
+    id: 52
+    mode: active
+- name: Ethernet53/1
+  peer: member-leaf-3e
+  peer_interface: Ethernet50
+  peer_type: leaf
+  description: MEMBER-LEAF-3E_Ethernet50
+  shutdown: false
+  type: port-channel-member
+  channel_group:
+    id: 531
+    mode: active
+mlag_configuration:
+  domain_id: IDF3_AGG
+  local_interface: Vlan4094
+  peer_address: 192.168.1.10
+  peer_link: Port-Channel47
+  reload_delay_mlag: '300'
+  reload_delay_non_mlag: '330'
+ip_igmp_snooping:
+  globally_enabled: true

@@ -1,0 +1,80 @@
+---
+### group_vars/DC1.yml
+
+#System
+system:
+  l1:
+    unsupported_speed_action: 'error'
+    unsupported_error_correction_action: 'error'
+management_api_http:
+  enable_https: true
+# local users - put admin in eos style since no secret 5 support seems available same ssh-sra keyword. 
+eos_cli: "username admin privilege 15 role network-admin secret 5 $1$5O85YVVn$HrXcfOivJEnISTMb6xrJc."
+local_users:
+  - name: arista
+    privilege: 15
+    role: network-admin
+    sha512_password: "$6$LnAjZlsMvAWk38Rz$IudQlxhHP0FJdIhThLLc8lGvKZr9VYYmQbmso9k4GP0sERahsy48jCOVuqBPMNLfeZH1Fdcm7BjkrN.us.v/Y0"
+    ssh_key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCmmhnaL5nwd6P37UdmIXlc3IdwqGoFSWEVDgrxHK7IQZcBLouVKW2Lec3onmXeRhlOi0MHczrSY8pzQy2EcV0Lsv1y/r+9Agotrb90e5QZyotlKtOiHdxoIRuNUXepI+qPhKiIejordgaaaevfYSPU9qtV0BeDWc+UPeJ2YNEQy9KM5wog7TPJhl52wew6Fgltg4LqsFjeZN5cuifUBbxtbkkuP+tPECD6H6fNDgzqiGAbH0f2e9WMld/LbX+eUvcPPV/kGnmnF98toed6V8E5UiiRVvjSCBrZjojgg31L2uDs79k36gQ3VcRcLRm3TL9LwRb8cYdS1wOlPZqABFDJ arista@christophe-testing-1-bcde41d8-eos.c.beta-atds.internal"
+#RADIUS
+radius:
+  mgmt_interface: true
+radius_server:
+  hosts:
+    - host: 192.168.0.1
+      # Encrypted key
+      key: 0207165218120E
+# AAA
+aaa_server_groups:
+  - name: atds
+    type: radius
+    servers: 
+      - server: '192.168.0.1'
+aaa_authentication:
+  login:
+    default: 'group atds local'
+aaa_authorization:
+  exec:
+    default: 'group atds local'
+  commands: 
+    all_default: local
+
+# OOB Management network default gateway.
+# mgmt_gateway: 192.168.0.1
+mgmt_interface: Management0
+mgmt_interface_vrf: default
+default_mgmt_method: 'oob'
+
+# # dns servers.
+# name_servers:
+#   - 8.8.4.4
+#   - 8.8.8.8
+dns_domain: atd.lab
+
+# # NTP Servers IP or DNS name, first NTP server will be prefered, and sourced from Managment VRF
+ntp:
+  servers:
+    - name: 192.168.0.1
+      iburst: true
+      vrf: default
+    # - name: pool.ntp.org
+    #   vrf: MGMT
+
+
+# TerminAttr
+daemon_terminattr:
+  # Address of the gRPC server on CloudVision
+  # TCP 9910 is used on on-prem
+  # TCP 443 is used on CV as a Service
+  cvaddrs: # For single cluster
+    - 192.168.0.5:9910
+  # Authentication scheme used to connect to CloudVision
+  cvauth:
+    method: token
+    token_file: /tmp/token
+  # Exclude paths from Sysdb on the ingest side
+  ingestexclude: /Sysdb/cell/1/agent,/Sysdb/cell/2/agent
+  # Exclude paths from the shared memory table
+  smashexcludes: ale,flexCounter,hardware,kni,pulse,strata
+  cvvrf: default
+  disable_aaa: true

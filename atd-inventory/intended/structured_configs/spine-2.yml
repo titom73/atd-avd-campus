@@ -1,0 +1,261 @@
+hostname: spine-2
+service_routing_protocols_model: multi-agent
+ip_routing: true
+vlan_internal_order:
+  allocation: ascending
+  range:
+    beginning: 1006
+    ending: 1199
+spanning_tree:
+  mode: mstp
+  mst_instances:
+  - id: '0'
+    priority: 4096
+  no_spanning_tree_vlan: 4093-4094
+local_users:
+- name: arista
+  privilege: 15
+  role: network-admin
+  sha512_password: $6$LnAjZlsMvAWk38Rz$IudQlxhHP0FJdIhThLLc8lGvKZr9VYYmQbmso9k4GP0sERahsy48jCOVuqBPMNLfeZH1Fdcm7BjkrN.us.v/Y0
+  ssh_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCmmhnaL5nwd6P37UdmIXlc3IdwqGoFSWEVDgrxHK7IQZcBLouVKW2Lec3onmXeRhlOi0MHczrSY8pzQy2EcV0Lsv1y/r+9Agotrb90e5QZyotlKtOiHdxoIRuNUXepI+qPhKiIejordgaaaevfYSPU9qtV0BeDWc+UPeJ2YNEQy9KM5wog7TPJhl52wew6Fgltg4LqsFjeZN5cuifUBbxtbkkuP+tPECD6H6fNDgzqiGAbH0f2e9WMld/LbX+eUvcPPV/kGnmnF98toed6V8E5UiiRVvjSCBrZjojgg31L2uDs79k36gQ3VcRcLRm3TL9LwRb8cYdS1wOlPZqABFDJ
+    arista@christophe-testing-1-bcde41d8-eos.c.beta-atds.internal
+vrfs:
+- name: default
+  ip_routing: false
+management_interfaces:
+- name: Management0
+  description: oob_management
+  shutdown: false
+  vrf: default
+  ip_address: 192.168.0.13/24
+  gateway: null
+  type: oob
+management_api_http:
+  enable_vrfs:
+  - name: default
+  enable_https: true
+vlans:
+- id: 4093
+  tenant: system
+  name: LEAF_PEER_L3
+  trunk_groups:
+  - LEAF_PEER_L3
+- id: 4094
+  tenant: system
+  name: MLAG_PEER
+  trunk_groups:
+  - MLAG
+- id: 110
+  name: IDF1-Data
+  tenant: MY_FABRIC
+- id: 120
+  name: IDF1-Voice
+  tenant: MY_FABRIC
+- id: 130
+  name: IDF1-Guest
+  tenant: MY_FABRIC
+- id: 210
+  name: IDF2-Data
+  tenant: MY_FABRIC
+- id: 220
+  name: IDF2-Voice
+  tenant: MY_FABRIC
+- id: 230
+  name: IDF2-Guest
+  tenant: MY_FABRIC
+- id: 310
+  name: IDF3-Data
+  tenant: MY_FABRIC
+- id: 320
+  name: IDF3-Voice
+  tenant: MY_FABRIC
+- id: 330
+  name: IDF3-Guest
+  tenant: MY_FABRIC
+vlan_interfaces:
+- name: Vlan4093
+  description: MLAG_PEER_L3_PEERING
+  shutdown: false
+  mtu: 1500
+  ip_address: 10.1.1.1/31
+  ospf_network_point_to_point: true
+  ospf_area: 0.0.0.0
+- name: Vlan4094
+  description: MLAG_PEER
+  shutdown: false
+  ip_address: 192.168.1.1/31
+  no_autostate: true
+  mtu: 1500
+- name: Vlan110
+  tenant: MY_FABRIC
+  tags:
+  - '110'
+  description: IDF1-Data
+  shutdown: false
+- name: Vlan120
+  tenant: MY_FABRIC
+  tags:
+  - '120'
+  description: IDF1-Voice
+  shutdown: false
+- name: Vlan130
+  tenant: MY_FABRIC
+  tags:
+  - '130'
+  description: IDF1-Guest
+  shutdown: false
+- name: Vlan210
+  tenant: MY_FABRIC
+  tags:
+  - '210'
+  description: IDF2-Data
+  shutdown: false
+- name: Vlan220
+  tenant: MY_FABRIC
+  tags:
+  - '220'
+  description: IDF2-Voice
+  shutdown: false
+- name: Vlan230
+  tenant: MY_FABRIC
+  tags:
+  - '230'
+  description: IDF2-Guest
+  shutdown: false
+- name: Vlan310
+  tenant: MY_FABRIC
+  tags:
+  - '310'
+  description: IDF3-Data
+  shutdown: false
+- name: Vlan320
+  tenant: MY_FABRIC
+  tags:
+  - '320'
+  description: IDF3-Voice
+  shutdown: false
+- name: Vlan330
+  tenant: MY_FABRIC
+  tags:
+  - '330'
+  description: IDF3-Guest
+  shutdown: false
+port_channel_interfaces:
+- name: Port-Channel49
+  description: MLAG_PEER_spine-1_Po49
+  type: switched
+  shutdown: false
+  mode: trunk
+  trunk_groups:
+  - LEAF_PEER_L3
+  - MLAG
+- name: Port-Channel3
+  description: IDF1_Po49
+  type: switched
+  shutdown: false
+  mode: trunk
+  vlans: 110,120,130
+  mlag: 3
+- name: Port-Channel4
+  description: LEAF-2A_Po11
+  type: switched
+  shutdown: false
+  mode: trunk
+  vlans: 210,220,230
+  mlag: 4
+- name: Port-Channel5
+  description: IDF3_AGG_Po49
+  type: switched
+  shutdown: false
+  mode: trunk
+  vlans: 310,320,330
+  mlag: 5
+ethernet_interfaces:
+- name: Ethernet49
+  peer: spine-1
+  peer_interface: Ethernet49
+  peer_type: mlag_peer
+  description: MLAG_PEER_spine-1_Ethernet49
+  type: port-channel-member
+  shutdown: false
+  channel_group:
+    id: 49
+    mode: active
+- name: Ethernet50
+  peer: spine-1
+  peer_interface: Ethernet50
+  peer_type: mlag_peer
+  description: MLAG_PEER_spine-1_Ethernet50
+  type: port-channel-member
+  shutdown: false
+  channel_group:
+    id: 49
+    mode: active
+- name: Ethernet3
+  peer: leaf-1b
+  peer_interface: Ethernet49
+  peer_type: leaf
+  description: LEAF-1B_Ethernet49
+  shutdown: false
+  type: port-channel-member
+  channel_group:
+    id: 3
+    mode: active
+- name: Ethernet4
+  peer: leaf-2a
+  peer_interface: Ethernet2/1
+  peer_type: leaf
+  description: LEAF-2A_Ethernet2/1
+  shutdown: false
+  type: port-channel-member
+  channel_group:
+    id: 4
+    mode: active
+- name: Ethernet5
+  peer: leaf-3a
+  peer_interface: Ethernet50
+  peer_type: leaf
+  description: LEAF-3A_Ethernet50
+  shutdown: false
+  type: port-channel-member
+  channel_group:
+    id: 5
+    mode: active
+- name: Ethernet6
+  peer: leaf-3b
+  peer_interface: Ethernet50
+  peer_type: leaf
+  description: LEAF-3B_Ethernet50
+  shutdown: false
+  type: port-channel-member
+  channel_group:
+    id: 5
+    mode: active
+mlag_configuration:
+  domain_id: SPINES
+  local_interface: Vlan4094
+  peer_address: 192.168.1.0
+  peer_link: Port-Channel49
+  reload_delay_mlag: '300'
+  reload_delay_non_mlag: '330'
+loopback_interfaces:
+- name: Loopback0
+  description: Router_ID
+  shutdown: false
+  ip_address: 172.16.1.2/32
+  ospf_area: 0.0.0.0
+router_ospf:
+  process_ids:
+  - id: 100
+    passive_interface_default: true
+    router_id: 172.16.1.2
+    max_lsa: 12000
+    no_passive_interfaces:
+    - Vlan4093
+    bfd_enable: false
+    redistribute:
+      connected: {}
+ip_igmp_snooping:
+  globally_enabled: true
+ip_virtual_router_mac_address: 00:1c:73:00:dc:01
+eos_cli: username admin privilege 15 role network-admin secret 5 $1$5O85YVVn$HrXcfOivJEnISTMb6xrJc.
