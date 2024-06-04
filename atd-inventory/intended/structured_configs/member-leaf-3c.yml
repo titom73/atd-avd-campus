@@ -1,4 +1,4 @@
-hostname: leaf-3d
+hostname: member-leaf-3c
 is_deployed: true
 static_routes:
 - vrf: default
@@ -28,7 +28,7 @@ management_interfaces:
   description: oob_management
   shutdown: false
   vrf: default
-  ip_address: 192.168.0.20/24
+  ip_address: 192.168.0.19/24
   gateway: 192.168.0.1
   type: oob
 management_api_http:
@@ -38,9 +38,9 @@ management_api_http:
 ethernet_interfaces:
 - name: Ethernet49
   peer: leaf-3a
-  peer_interface: Ethernet52/1
+  peer_interface: Ethernet51/1
   peer_type: leaf
-  description: LEAF-3A_Ethernet52/1
+  description: LEAF-3A_Ethernet51/1
   shutdown: false
   type: port-channel-member
   channel_group:
@@ -48,9 +48,9 @@ ethernet_interfaces:
     mode: active
 - name: Ethernet50
   peer: leaf-3b
-  peer_interface: Ethernet52/1
+  peer_interface: Ethernet51/1
   peer_type: leaf
-  description: LEAF-3B_Ethernet52/1
+  description: LEAF-3B_Ethernet51/1
   shutdown: false
   type: port-channel-member
   channel_group:
@@ -58,7 +58,7 @@ ethernet_interfaces:
     mode: active
 port_channel_interfaces:
 - name: Port-Channel49
-  description: IDF3_AGG_Po521
+  description: IDF3_AGG_Po511
   type: switched
   shutdown: false
   mode: trunk

@@ -10,6 +10,6 @@
       import_role:
         name: eos_config_deploy_cvp
       vars:
-        container_root: 'CAMPUS'
+        container_root: 'CAMPUS_AVD'
         configlets_prefix: 'AVD_CAMPUS_'
         state: present

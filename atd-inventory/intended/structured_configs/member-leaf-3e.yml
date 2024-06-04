@@ -1,4 +1,4 @@
-hostname: leaf-3e
+hostname: member-leaf-3e
 is_deployed: true
 static_routes:
 - vrf: default

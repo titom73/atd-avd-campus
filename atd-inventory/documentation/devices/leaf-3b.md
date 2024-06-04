@@ -121,7 +121,7 @@ management api http-commands
 
 | Domain-id | Local-interface | Peer-address | Peer-link |
 | --------- | --------------- | ------------ | --------- |
-| IDF3_AGG | Vlan4094 | 192.168.0.10 | Port-Channel47 |
+| IDF3_AGG | Vlan4094 | 10.255.255.10 | Port-Channel47 |
 
 Dual primary detection is disabled.
 
@@ -132,7 +132,7 @@ Dual primary detection is disabled.
 mlag configuration
    domain-id IDF3_AGG
    local-interface Vlan4094
-   peer-address 192.168.0.10
+   peer-address 10.255.255.10
    peer-link Port-Channel47
    reload-delay mlag 300
    reload-delay non-mlag 330
@@ -209,9 +209,9 @@ vlan 4094
 | Ethernet48 | MLAG_PEER_leaf-3a_Ethernet48 | *trunk | *- | *- | *['MLAG'] | 47 |
 | Ethernet49 | SPINE-1_Ethernet6 | *trunk | *none | *- | *- | 49 |
 | Ethernet50 | SPINE-2_Ethernet6 | *trunk | *none | *- | *- | 49 |
-| Ethernet51/1 | LEAF-3C_Ethernet50 | *trunk | *none | *- | *- | 511 |
-| Ethernet52/1 | LEAF-3D_Ethernet50 | *trunk | *none | *- | *- | 521 |
-| Ethernet53/1 | LEAF-3E_Ethernet50 | *trunk | *none | *- | *- | 531 |
+| Ethernet51/1 | MEMBER-LEAF-3C_Ethernet50 | *trunk | *none | *- | *- | 511 |
+| Ethernet52/1 | MEMBER-LEAF-3D_Ethernet50 | *trunk | *none | *- | *- | 521 |
+| Ethernet53/1 | MEMBER-LEAF-3E_Ethernet50 | *trunk | *none | *- | *- | 531 |
 
 *Inherited from Port-Channel Interface
 
@@ -240,17 +240,17 @@ interface Ethernet50
    channel-group 49 mode active
 !
 interface Ethernet51/1
-   description LEAF-3C_Ethernet50
+   description MEMBER-LEAF-3C_Ethernet50
    no shutdown
    channel-group 511 mode active
 !
 interface Ethernet52/1
-   description LEAF-3D_Ethernet50
+   description MEMBER-LEAF-3D_Ethernet50
    no shutdown
    channel-group 521 mode active
 !
 interface Ethernet53/1
-   description LEAF-3E_Ethernet50
+   description MEMBER-LEAF-3E_Ethernet50
    no shutdown
    channel-group 531 mode active
 ```
@@ -265,9 +265,9 @@ interface Ethernet53/1
 | --------- | ----------- | ---- | ---- | ----- | ----------- | ------------| --------------------- | ------------------ | ------- | -------- |
 | Port-Channel47 | MLAG_PEER_leaf-3a_Po47 | switched | trunk | - | - | ['MLAG'] | - | - | - | - |
 | Port-Channel49 | CAMPUS_SPINES_Po5 | switched | trunk | none | - | - | - | - | 49 | - |
-| Port-Channel511 | LEAF-3C_Po49 | switched | trunk | none | - | - | - | - | 511 | - |
-| Port-Channel521 | LEAF-3D_Po49 | switched | trunk | none | - | - | - | - | 521 | - |
-| Port-Channel531 | LEAF-3E_Po49 | switched | trunk | none | - | - | - | - | 531 | - |
+| Port-Channel511 | MEMBER-LEAF-3C_Po49 | switched | trunk | none | - | - | - | - | 511 | - |
+| Port-Channel521 | MEMBER-LEAF-3D_Po49 | switched | trunk | none | - | - | - | - | 521 | - |
+| Port-Channel531 | MEMBER-LEAF-3E_Po49 | switched | trunk | none | - | - | - | - | 531 | - |
 
 #### Port-Channel Interfaces Device Configuration
 
@@ -289,7 +289,7 @@ interface Port-Channel49
    mlag 49
 !
 interface Port-Channel511
-   description LEAF-3C_Po49
+   description MEMBER-LEAF-3C_Po49
    no shutdown
    switchport
    switchport trunk allowed vlan none
@@ -297,7 +297,7 @@ interface Port-Channel511
    mlag 511
 !
 interface Port-Channel521
-   description LEAF-3D_Po49
+   description MEMBER-LEAF-3D_Po49
    no shutdown
    switchport
    switchport trunk allowed vlan none
@@ -305,7 +305,7 @@ interface Port-Channel521
    mlag 521
 !
 interface Port-Channel531
-   description LEAF-3E_Po49
+   description MEMBER-LEAF-3E_Po49
    no shutdown
    switchport
    switchport trunk allowed vlan none
@@ -325,7 +325,7 @@ interface Port-Channel531
 
 | Interface | VRF | IP Address | IP Address Virtual | IP Router Virtual Address | VRRP | ACL In | ACL Out |
 | --------- | --- | ---------- | ------------------ | ------------------------- | ---- | ------ | ------- |
-| Vlan4094 |  default  |  192.168.0.11/31  |  -  |  -  |  -  |  -  |  -  |
+| Vlan4094 |  default  |  10.255.255.11/31  |  -  |  -  |  -  |  -  |  -  |
 
 #### VLAN Interfaces Device Configuration
 
@@ -336,7 +336,7 @@ interface Vlan4094
    no shutdown
    mtu 9214
    no autostate
-   ip address 192.168.0.11/31
+   ip address 10.255.255.11/31
 ```
 
 ## Routing

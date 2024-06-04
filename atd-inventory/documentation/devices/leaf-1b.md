@@ -30,6 +30,8 @@
   - [Static Routes](#static-routes)
 - [Multicast](#multicast)
   - [IP IGMP Snooping](#ip-igmp-snooping)
+- [802.1X Port Security](#8021x-port-security)
+  - [802.1X Summary](#8021x-summary)
 - [VRF Instances](#vrf-instances)
   - [VRF Instances Summary](#vrf-instances-summary)
   - [VRF Instances Device Configuration](#vrf-instances-device-configuration)
@@ -121,7 +123,7 @@ management api http-commands
 
 | Domain-id | Local-interface | Peer-address | Peer-link |
 | --------- | --------------- | ------------ | --------- |
-| IDF1 | Vlan4094 | 192.168.0.4 | Port-Channel47 |
+| IDF1 | Vlan4094 | 10.255.255.4 | Port-Channel47 |
 
 Dual primary detection is disabled.
 
@@ -132,7 +134,7 @@ Dual primary detection is disabled.
 mlag configuration
    domain-id IDF1
    local-interface Vlan4094
-   peer-address 192.168.0.4
+   peer-address 10.255.255.4
    peer-link Port-Channel47
    reload-delay mlag 300
    reload-delay non-mlag 330
@@ -185,6 +187,7 @@ vlan internal order ascending range 1006 1199
 | VLAN ID | Name | Trunk Groups |
 | ------- | ---- | ------------ |
 | 110 | IDF1-Data | - |
+| 210 | IDF2-Data | - |
 | 4094 | MLAG_PEER | MLAG |
 
 ### VLANs Device Configuration
@@ -193,6 +196,9 @@ vlan internal order ascending range 1006 1199
 !
 vlan 110
    name IDF1-Data
+!
+vlan 210
+   name IDF2-Data
 !
 vlan 4094
    name MLAG_PEER
@@ -209,15 +215,42 @@ vlan 4094
 
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | Channel-Group |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
+| Ethernet1 |  IDF1 dot1x port | trunk phone | - | 110 | - | - |
 | Ethernet47 | MLAG_PEER_leaf-1a_Ethernet47 | *trunk | *- | *- | *['MLAG'] | 47 |
 | Ethernet48 | MLAG_PEER_leaf-1a_Ethernet48 | *trunk | *- | *- | *['MLAG'] | 47 |
-| Ethernet49 | SPINE-2_Ethernet3 | *trunk | *110 | *- | *- | 49 |
+| Ethernet49 | SPINE-2_Ethernet3 | *trunk | *110,210 | *- | *- | 49 |
 
 *Inherited from Port-Channel Interface
+
+##### Phone Interfaces
+
+| Interface | Mode | Native VLAN | Phone VLAN | Phone VLAN Mode |
+| --------- | ---- | ----------- | ---------- | --------------- |
+| Ethernet1 | trunk phone | 110 | 120 | untagged |
 
 #### Ethernet Interfaces Device Configuration
 
 ```eos
+!
+interface Ethernet1
+   description IDF1 dot1x port
+   no shutdown
+   switchport trunk native vlan 110
+   switchport phone vlan 120
+   switchport phone trunk untagged
+   switchport mode trunk phone
+   switchport
+   dot1x pae authenticator
+   dot1x authentication failure action traffic allow vlan 130
+   dot1x reauthentication
+   dot1x port-control auto
+   dot1x host-mode multi-host authenticated
+   dot1x mac based authentication
+   dot1x timeout tx-period 3
+   dot1x timeout reauth-period server
+   dot1x reauthorization request limit 3
+   spanning-tree portfast
+   spanning-tree bpduguard enable
 !
 interface Ethernet47
    description MLAG_PEER_leaf-1a_Ethernet47
@@ -244,7 +277,7 @@ interface Ethernet49
 | Interface | Description | Type | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
 | --------- | ----------- | ---- | ---- | ----- | ----------- | ------------| --------------------- | ------------------ | ------- | -------- |
 | Port-Channel47 | MLAG_PEER_leaf-1a_Po47 | switched | trunk | - | - | ['MLAG'] | - | - | - | - |
-| Port-Channel49 | CAMPUS_SPINES_Po3 | switched | trunk | 110 | - | - | - | - | 49 | - |
+| Port-Channel49 | CAMPUS_SPINES_Po3 | switched | trunk | 110,210 | - | - | - | - | 49 | - |
 
 #### Port-Channel Interfaces Device Configuration
 
@@ -261,7 +294,7 @@ interface Port-Channel49
    description CAMPUS_SPINES_Po3
    no shutdown
    switchport
-   switchport trunk allowed vlan 110
+   switchport trunk allowed vlan 110,210
    switchport mode trunk
    mlag 49
 ```
@@ -278,7 +311,7 @@ interface Port-Channel49
 
 | Interface | VRF | IP Address | IP Address Virtual | IP Router Virtual Address | VRRP | ACL In | ACL Out |
 | --------- | --- | ---------- | ------------------ | ------------------------- | ---- | ------ | ------- |
-| Vlan4094 |  default  |  192.168.0.5/31  |  -  |  -  |  -  |  -  |  -  |
+| Vlan4094 |  default  |  10.255.255.5/31  |  -  |  -  |  -  |  -  |  -  |
 
 #### VLAN Interfaces Device Configuration
 
@@ -289,7 +322,7 @@ interface Vlan4094
    no shutdown
    mtu 9214
    no autostate
-   ip address 192.168.0.5/31
+   ip address 10.255.255.5/31
 ```
 
 ## Routing
@@ -354,6 +387,16 @@ ip route 0.0.0.0/0 192.168.0.1
 
 ```eos
 ```
+
+## 802.1X Port Security
+
+### 802.1X Summary
+
+#### 802.1X Interfaces
+
+| Interface | PAE Mode | State | Phone Force Authorized | Reauthentication | Auth Failure Action | Host Mode | Mac Based Auth | Eapol |
+| --------- | -------- | ------| ---------------------- | ---------------- | ------------------- | --------- | -------------- | ------ |
+| Ethernet1 | authenticator | auto | - | True | allow vlan 130 | multi-host | True | - |
 
 ## VRF Instances
 
