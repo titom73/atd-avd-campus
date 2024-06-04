@@ -1,28 +1,8 @@
-fabric_name: CAMPUS
+fabric_name: CAMPUS_AVD
 
 # Set Design Type to L2ls
 design:
   type: l2ls
-
-
-###############################################
-# Ansible connectivity definitions
-###############################################
-
-# # eAPI connectivity via HTTPS is specified (as opposed to network_cli via SSH)
-# ansible_connection: ansible.netcommon.httpapi
-# # Specifies that we are indeed using Arista EOS
-# ansible_network_os: arista.eos.eos
-# # This user/password must exist on the switches to enable Ansible access
-# ansible_user: arista
-# ansible_password: aristahr3z
-# # User escalation (to enter enable mode)
-# ansible_become: true
-# ansible_become_method: enable
-# # Use SSL (HTTPS)
-# ansible_httpapi_use_ssl: true
-# # Do not try to validate certs
-# ansible_httpapi_validate_certs: false
 
 
 ###############################################
@@ -36,8 +16,8 @@ l3spine:
     spanning_tree_mode: mstp
     spanning_tree_priority: 4096
     loopback_ipv4_pool: 172.16.1.0/24
-    mlag_peer_ipv4_pool: 192.168.1.0/24
-    mlag_peer_l3_ipv4_pool: 10.1.1.0/24
+    mlag_peer_ipv4_pool: 10.255.255.0/24
+    mlag_peer_l3_ipv4_pool: 10.255.254.0/24
     virtual_router_mac_address: 00:1c:73:00:dc:01
     mlag_interfaces: [Ethernet49, Ethernet50]
   node_groups:
@@ -54,18 +34,16 @@ l3spine:
 leaf:
   defaults:
     platform: cEOSLab
-    mlag_peer_ipv4_pool: 192.168.0.0/24
+    mlag_peer_ipv4_pool: 10.255.255.0/24
     spanning_tree_mode: mstp
     spanning_tree_priority: 16384
-    # inband_mgmt_subnet: 10.10.10.0/24
-    # inband_mgmt_vlan: 10
   node_groups:
     - group: IDF1
       mlag: true
       uplink_interfaces: [Ethernet49]
       mlag_interfaces: [Ethernet47, Ethernet48]
-      filter:
-        tags: [ "110", "120", "130" ]
+      # filter:
+      #   tags: [ "110", "120", "130" ]
       nodes:
         - name: leaf-1a
           id: 3
@@ -81,8 +59,8 @@ leaf:
     - group: IDF2
       platform: 720XP
       mlag: false
-      filter:
-        tags: [ "210", "220", "230" ]
+      # filter:
+      #   tags: [ "210", "220", "230" ]
       nodes:
         - name: leaf-2a
           id: 5
@@ -96,8 +74,8 @@ leaf:
       mlag_interfaces: [Ethernet47, Ethernet48]
       uplink_switches: [spine-1, spine-2]
       uplink_interfaces: [Ethernet49, Ethernet50]
-      filter:
-        tags: [ "310", "320", "330" ]
+      # filter:
+      #   tags: [ "310", "320", "330" ]
       nodes:
         - name: leaf-3a
           id: 6
@@ -112,7 +90,7 @@ leaf:
       uplink_switches: [leaf-3a, leaf-3b]
       uplink_interfaces: [Ethernet49, Ethernet50]
       nodes:
-        - name: leaf-3c
+        - name: member-leaf-3c
           id: 8
           mgmt_ip: 192.168.0.19/24
           uplink_switch_interfaces: [Ethernet51/1, Ethernet51/1]
@@ -121,7 +99,7 @@ leaf:
       uplink_switches: [leaf-3a, leaf-3b]
       uplink_interfaces: [Ethernet49, Ethernet50]
       nodes:
-        - name: leaf-3d
+        - name: member-leaf-3d
           id: 9
           mgmt_ip: 192.168.0.20/24
           uplink_switch_interfaces: [Ethernet52/1, Ethernet52/1]
@@ -130,7 +108,7 @@ leaf:
       uplink_switches: [leaf-3a, leaf-3b]
       uplink_interfaces: [Ethernet49, Ethernet50]
       nodes:
-        - name: leaf-3e
+        - name: member-leaf-3e
           id: 10
           mgmt_ip: 192.168.0.21/24
           uplink_switch_interfaces: [Ethernet53/1, Ethernet53/1]

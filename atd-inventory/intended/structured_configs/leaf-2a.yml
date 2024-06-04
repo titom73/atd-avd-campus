@@ -56,13 +56,51 @@ ethernet_interfaces:
   channel_group:
     id: 49
     mode: active
+- name: Ethernet1
+  peer: IDF2 dot1x port
+  peer_type: network_port
+  port_profile: PP-DOT1X
+  description: IDF2 dot1x port
+  shutdown: false
+  type: switched
+  mode: trunk phone
+  native_vlan: 110
+  spanning_tree_portfast: edge
+  spanning_tree_bpduguard: enabled
+  dot1x:
+    port_control: auto
+    reauthentication: true
+    pae:
+      mode: authenticator
+    host_mode:
+      mode: multi-host
+      multi_host_authenticated: true
+    mac_based_authentication:
+      enabled: true
+    timeout:
+      reauth_period: server
+      tx_period: 3
+    reauthorization_request_limit: 3
+    authentication_failure:
+      action: allow
+      allow_vlan: 130
+  phone:
+    trunk: untagged
+    vlan: 120
 port_channel_interfaces:
 - name: Port-Channel49
   description: CAMPUS_SPINES_Po4
   type: switched
   shutdown: false
   mode: trunk
-  vlans: none
+  vlans: 110,210
+vlans:
+- id: 110
+  name: IDF1-Data
+  tenant: CAMPUS_SERVICES
+- id: 210
+  name: IDF2-Data
+  tenant: CAMPUS_SERVICES
 ip_igmp_snooping:
   globally_enabled: true
 metadata:

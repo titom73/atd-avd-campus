@@ -26,3 +26,11 @@
   arista.cvp.cv_container_v3:
     topology: '{{ CVP_CONTAINERS_DELETE }}'
     state: absent
+  ignore_errors: true
+
+- name: "Refresh Containers topology on {{ inventory_hostname }}"
+  tags: [provision, apply]
+  arista.cvp.cv_container_v3:
+    topology: '{{ CVP_CONTAINERS_AVD_DELETE }}'
+    state: absent
+  ignore_errors: true

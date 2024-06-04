@@ -51,23 +51,28 @@ vlans:
 - id: 110
   name: IDF1-Data
   tenant: CAMPUS_SERVICES
+- id: 210
+  name: IDF2-Data
+  tenant: CAMPUS_SERVICES
 vlan_interfaces:
 - name: Vlan4093
   description: MLAG_PEER_L3_PEERING
   shutdown: false
   mtu: 9214
-  ip_address: 10.1.1.1/31
+  ip_address: 10.255.254.1/31
 - name: Vlan4094
   description: MLAG_PEER
   shutdown: false
   no_autostate: true
   mtu: 9214
-  ip_address: 192.168.1.1/31
+  ip_address: 10.255.255.1/31
 - name: Vlan110
   tenant: CAMPUS_SERVICES
-  tags:
-  - '110'
   description: IDF1-Data
+  shutdown: false
+- name: Vlan210
+  tenant: CAMPUS_SERVICES
+  description: IDF2-Data
   shutdown: false
 port_channel_interfaces:
 - name: Port-Channel49
@@ -83,14 +88,14 @@ port_channel_interfaces:
   type: switched
   shutdown: false
   mode: trunk
-  vlans: '110'
+  vlans: 110,210
   mlag: 3
 - name: Port-Channel4
   description: LEAF-2A_Po49
   type: switched
   shutdown: false
   mode: trunk
-  vlans: none
+  vlans: 110,210
   mlag: 4
 - name: Port-Channel5
   description: IDF3_AGG_Po49
@@ -163,7 +168,7 @@ ethernet_interfaces:
 mlag_configuration:
   domain_id: CAMPUS_SPINES
   local_interface: Vlan4094
-  peer_address: 192.168.1.0
+  peer_address: 10.255.255.0
   peer_link: Port-Channel49
   reload_delay_mlag: '300'
   reload_delay_non_mlag: '330'

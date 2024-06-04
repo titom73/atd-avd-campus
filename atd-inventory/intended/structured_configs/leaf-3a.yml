@@ -48,7 +48,7 @@ vlan_interfaces:
   shutdown: false
   no_autostate: true
   mtu: 9214
-  ip_address: 192.168.0.10/31
+  ip_address: 10.255.255.10/31
 port_channel_interfaces:
 - name: Port-Channel47
   description: MLAG_PEER_leaf-3b_Po47
@@ -65,21 +65,21 @@ port_channel_interfaces:
   vlans: none
   mlag: 49
 - name: Port-Channel511
-  description: LEAF-3C_Po49
+  description: MEMBER-LEAF-3C_Po49
   type: switched
   shutdown: false
   mode: trunk
   vlans: none
   mlag: 511
 - name: Port-Channel521
-  description: LEAF-3D_Po49
+  description: MEMBER-LEAF-3D_Po49
   type: switched
   shutdown: false
   mode: trunk
   vlans: none
   mlag: 521
 - name: Port-Channel531
-  description: LEAF-3E_Po49
+  description: MEMBER-LEAF-3E_Po49
   type: switched
   shutdown: false
   mode: trunk
@@ -127,30 +127,30 @@ ethernet_interfaces:
     id: 49
     mode: active
 - name: Ethernet51/1
-  peer: leaf-3c
+  peer: member-leaf-3c
   peer_interface: Ethernet49
   peer_type: leaf
-  description: LEAF-3C_Ethernet49
+  description: MEMBER-LEAF-3C_Ethernet49
   shutdown: false
   type: port-channel-member
   channel_group:
     id: 511
     mode: active
 - name: Ethernet52/1
-  peer: leaf-3d
+  peer: member-leaf-3d
   peer_interface: Ethernet49
   peer_type: leaf
-  description: LEAF-3D_Ethernet49
+  description: MEMBER-LEAF-3D_Ethernet49
   shutdown: false
   type: port-channel-member
   channel_group:
     id: 521
     mode: active
 - name: Ethernet53/1
-  peer: leaf-3e
+  peer: member-leaf-3e
   peer_interface: Ethernet49
   peer_type: leaf
-  description: LEAF-3E_Ethernet49
+  description: MEMBER-LEAF-3E_Ethernet49
   shutdown: false
   type: port-channel-member
   channel_group:
@@ -159,7 +159,7 @@ ethernet_interfaces:
 mlag_configuration:
   domain_id: IDF3_AGG
   local_interface: Vlan4094
-  peer_address: 192.168.0.11
+  peer_address: 10.255.255.11
   peer_link: Port-Channel47
   reload_delay_mlag: '300'
   reload_delay_non_mlag: '330'

@@ -123,7 +123,7 @@ management api http-commands
 
 | Domain-id | Local-interface | Peer-address | Peer-link |
 | --------- | --------------- | ------------ | --------- |
-| CAMPUS_SPINES | Vlan4094 | 192.168.1.0 | Port-Channel49 |
+| CAMPUS_SPINES | Vlan4094 | 10.255.255.0 | Port-Channel49 |
 
 Dual primary detection is disabled.
 
@@ -134,7 +134,7 @@ Dual primary detection is disabled.
 mlag configuration
    domain-id CAMPUS_SPINES
    local-interface Vlan4094
-   peer-address 192.168.1.0
+   peer-address 10.255.255.0
    peer-link Port-Channel49
    reload-delay mlag 300
    reload-delay non-mlag 330
@@ -187,6 +187,7 @@ vlan internal order ascending range 1006 1199
 | VLAN ID | Name | Trunk Groups |
 | ------- | ---- | ------------ |
 | 110 | IDF1-Data | - |
+| 210 | IDF2-Data | - |
 | 4093 | LEAF_PEER_L3 | LEAF_PEER_L3 |
 | 4094 | MLAG_PEER | MLAG |
 
@@ -196,6 +197,9 @@ vlan internal order ascending range 1006 1199
 !
 vlan 110
    name IDF1-Data
+!
+vlan 210
+   name IDF2-Data
 !
 vlan 4093
    name LEAF_PEER_L3
@@ -216,8 +220,8 @@ vlan 4094
 
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | Channel-Group |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
-| Ethernet3 | LEAF-1B_Ethernet49 | *trunk | *110 | *- | *- | 3 |
-| Ethernet4 | LEAF-2A_Ethernet50 | *trunk | *none | *- | *- | 4 |
+| Ethernet3 | LEAF-1B_Ethernet49 | *trunk | *110,210 | *- | *- | 3 |
+| Ethernet4 | LEAF-2A_Ethernet50 | *trunk | *110,210 | *- | *- | 4 |
 | Ethernet5 | LEAF-3A_Ethernet50 | *trunk | *none | *- | *- | 5 |
 | Ethernet6 | LEAF-3B_Ethernet50 | *trunk | *none | *- | *- | 5 |
 | Ethernet49 | MLAG_PEER_spine-1_Ethernet49 | *trunk | *- | *- | *['LEAF_PEER_L3', 'MLAG'] | 49 |
@@ -268,8 +272,8 @@ interface Ethernet50
 
 | Interface | Description | Type | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
 | --------- | ----------- | ---- | ---- | ----- | ----------- | ------------| --------------------- | ------------------ | ------- | -------- |
-| Port-Channel3 | IDF1_Po49 | switched | trunk | 110 | - | - | - | - | 3 | - |
-| Port-Channel4 | LEAF-2A_Po49 | switched | trunk | none | - | - | - | - | 4 | - |
+| Port-Channel3 | IDF1_Po49 | switched | trunk | 110,210 | - | - | - | - | 3 | - |
+| Port-Channel4 | LEAF-2A_Po49 | switched | trunk | 110,210 | - | - | - | - | 4 | - |
 | Port-Channel5 | IDF3_AGG_Po49 | switched | trunk | none | - | - | - | - | 5 | - |
 | Port-Channel49 | MLAG_PEER_spine-1_Po49 | switched | trunk | - | - | ['LEAF_PEER_L3', 'MLAG'] | - | - | - | - |
 
@@ -281,7 +285,7 @@ interface Port-Channel3
    description IDF1_Po49
    no shutdown
    switchport
-   switchport trunk allowed vlan 110
+   switchport trunk allowed vlan 110,210
    switchport mode trunk
    mlag 3
 !
@@ -289,7 +293,7 @@ interface Port-Channel4
    description LEAF-2A_Po49
    no shutdown
    switchport
-   switchport trunk allowed vlan none
+   switchport trunk allowed vlan 110,210
    switchport mode trunk
    mlag 4
 !
@@ -343,6 +347,7 @@ interface Loopback0
 | Interface | Description | VRF |  MTU | Shutdown |
 | --------- | ----------- | --- | ---- | -------- |
 | Vlan110 | IDF1-Data | default | - | False |
+| Vlan210 | IDF2-Data | default | - | False |
 | Vlan4093 | MLAG_PEER_L3_PEERING | default | 9214 | False |
 | Vlan4094 | MLAG_PEER | default | 9214 | False |
 
@@ -351,8 +356,9 @@ interface Loopback0
 | Interface | VRF | IP Address | IP Address Virtual | IP Router Virtual Address | VRRP | ACL In | ACL Out |
 | --------- | --- | ---------- | ------------------ | ------------------------- | ---- | ------ | ------- |
 | Vlan110 |  default  |  -  |  -  |  -  |  -  |  -  |  -  |
-| Vlan4093 |  default  |  10.1.1.1/31  |  -  |  -  |  -  |  -  |  -  |
-| Vlan4094 |  default  |  192.168.1.1/31  |  -  |  -  |  -  |  -  |  -  |
+| Vlan210 |  default  |  -  |  -  |  -  |  -  |  -  |  -  |
+| Vlan4093 |  default  |  10.255.254.1/31  |  -  |  -  |  -  |  -  |  -  |
+| Vlan4094 |  default  |  10.255.255.1/31  |  -  |  -  |  -  |  -  |  -  |
 
 #### VLAN Interfaces Device Configuration
 
@@ -362,18 +368,22 @@ interface Vlan110
    description IDF1-Data
    no shutdown
 !
+interface Vlan210
+   description IDF2-Data
+   no shutdown
+!
 interface Vlan4093
    description MLAG_PEER_L3_PEERING
    no shutdown
    mtu 9214
-   ip address 10.1.1.1/31
+   ip address 10.255.254.1/31
 !
 interface Vlan4094
    description MLAG_PEER
    no shutdown
    mtu 9214
    no autostate
-   ip address 192.168.1.1/31
+   ip address 10.255.255.1/31
 ```
 
 ## Routing

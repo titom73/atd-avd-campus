@@ -20,18 +20,18 @@ cvp_devices:
     parentContainerName: IDF3_AGG
     configlets:
       - AVD_CAMPUS__leaf-3b
-  - fqdn: leaf-3c
+  - fqdn: member-leaf-3c
     parentContainerName: IDF3_3C
     configlets:
-      - AVD_CAMPUS__leaf-3c
-  - fqdn: leaf-3d
+      - AVD_CAMPUS__member-leaf-3c
+  - fqdn: member-leaf-3d
     parentContainerName: IDF3_3D
     configlets:
-      - AVD_CAMPUS__leaf-3d
-  - fqdn: leaf-3e
+      - AVD_CAMPUS__member-leaf-3d
+  - fqdn: member-leaf-3e
     parentContainerName: IDF3_3E
     configlets:
-      - AVD_CAMPUS__leaf-3e
+      - AVD_CAMPUS__member-leaf-3e
   - fqdn: spine-1
     parentContainerName: CAMPUS_SPINES
     configlets:
@@ -41,12 +41,12 @@ cvp_devices:
     configlets:
       - AVD_CAMPUS__spine-2
 cvp_containers:
-  CAMPUS:
+  CAMPUS_AVD:
     parentContainerName: Tenant
   CAMPUS_LEAVES:
-    parentContainerName: CAMPUS
+    parentContainerName: CAMPUS_AVD
   CAMPUS_SPINES:
-    parentContainerName: CAMPUS
+    parentContainerName: CAMPUS_AVD
   IDF1:
     parentContainerName: CAMPUS_LEAVES
   IDF2:

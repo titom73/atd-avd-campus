@@ -9,7 +9,7 @@ LAB:
           cv_collection: v3
     ATD:
       children:
-        CAMPUS:
+        CAMPUS_AVD:
           children:
             CAMPUS_SPINES:
               vars:
@@ -41,24 +41,24 @@ LAB:
                       ansible_host: 192.168.0.18
                 IDF3_3C:
                   hosts:
-                    leaf-3c:
+                    member-leaf-3c:
                       ansible_host: 192.168.0.19
                 IDF3_3D:
                   hosts:
-                    leaf-3d:
+                    member-leaf-3d:
                       ansible_host: 192.168.0.20
                 IDF3_3E:
                   hosts:
-                    leaf-3e:
+                    member-leaf-3e:
                       ansible_host: 192.168.0.21
 
         CAMPUS_SERVICES:
           children:
             CAMPUS_LEAVES:
             CAMPUS_SPINES:
-        # CAMPUS_PORTS:
-        #   children:
-        #     CAMPUS_LEAVES:
+        CAMPUS_PORTS:
+          children:
+            CAMPUS_LEAVES:
 
 
 ###############################################
