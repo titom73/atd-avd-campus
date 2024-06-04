@@ -52,10 +52,30 @@ LAB:
                     leaf-3e:
                       ansible_host: 192.168.0.21
 
-            CAMPUS_SERVICES:
-              children:
-                CAMPUS_LEAVES:
-                CAMPUS_SPINES:
-            # CAMPUS_PORTS:
-            #   children:
-            #     CAMPUS_LEAVES:
+        CAMPUS_SERVICES:
+          children:
+            CAMPUS_LEAVES:
+            CAMPUS_SPINES:
+        # CAMPUS_PORTS:
+        #   children:
+        #     CAMPUS_LEAVES:
+
+
+###############################################
+# Ansible connectivity definitions
+###############################################
+  vars:
+    ansible_user: arista
+    ansible_password: "{{ lookup('env', 'LABPASSPHRASE') }}"
+    ansible_network_os: arista.eos.eos
+    # Configure privilege escalation
+    ansible_become: true
+    ansible_become_method: enable
+    # HTTPAPI configuration
+    ansible_connection: httpapi
+    ansible_httpapi_port: 443
+    ansible_httpapi_use_ssl: true
+    ansible_httpapi_validate_certs: false
+    ansible_python_interpreter: $(which python3)
+    avd_data_conversion_mode: error
+    avd_data_validation_mode: error

@@ -1,0 +1,70 @@
+---
+CVP_DEVICES_INIT:
+  # SPINE
+  - fqdn: spine-1
+    parentContainerName: STAGING
+    configlets:
+      - BASE_spine-1
+  - fqdn: spine-2
+    parentContainerName: STAGING
+    configlets:
+      - BASE_spine-2
+  # IDF 1
+  - fqdn: leaf-1a
+    parentContainerName: STAGING
+    configlets:
+      - BASE_leaf-1a
+  - fqdn: leaf-1b
+    parentContainerName: STAGING
+    configlets:
+      - BASE_leaf-1b
+  # IDF 2
+  - fqdn: leaf-2a
+    parentContainerName: STAGING
+    configlets:
+      - BASE_leaf-2a
+  # IDF 3
+  - fqdn: leaf-3a
+    parentContainerName: STAGING
+    configlets:
+      - BASE_leaf-3a
+  - fqdn: leaf-3b
+    parentContainerName: STAGING
+    configlets:
+      - BASE_leaf-3b
+  - fqdn: leaf-3c
+    parentContainerName: STAGING
+    configlets:
+      - BASE_leaf-3c
+  - fqdn: leaf-3d
+    parentContainerName: STAGING
+    configlets:
+      - BASE_leaf-3d
+  - fqdn: leaf-3e
+    parentContainerName: STAGING
+    configlets:
+      - BASE_leaf-3e
+
+
+CVP_CONTAINERS_INIT:
+  STAGING:
+    parentContainerName: Tenant
+
+
+CVP_CONTAINERS_DELETE:
+  "Campus Spine":
+    parentContainerName: Tenant
+  "Campus Edge":
+    parentContainerName: Tenant
+  "Campus Leaves":
+    parentContainerName: Tenant
+  "Closet 1":
+    parentContainerName: "Campus Leaves"
+  "Closet 2":
+    parentContainerName: "Campus Leaves"
+  "Closet 3":
+    parentContainerName: "Campus Leaves"
+  "Closet 3 Leaves":
+    parentContainerName: "Closet 3"
+  "Closet 3 Members":
+    parentContainerName: "Closet 3"

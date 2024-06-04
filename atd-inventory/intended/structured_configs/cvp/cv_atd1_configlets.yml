@@ -1,0 +1,267 @@
+cvp_configlets:
+  AVD_CAMPUS__leaf-1a: "!RANCID-CONTENT-TYPE: arista\n!\nvlan internal order ascending
+    range 1006 1199\n!\ntransceiver qsfp default-mode 4x10G\n!\nservice routing protocols
+    model multi-agent\n!\nhostname leaf-1a\nip name-server vrf default 8.8.8.8\nip
+    name-server vrf default 192.168.2.1\ndns domain atd.lab\n!\nspanning-tree mode
+    mstp\nno spanning-tree vlan-id 4094\nspanning-tree mst 0 priority 16384\n!\nno
+    enable password\nno aaa root\n!\nvlan 110\n   name IDF1-Data\n!\nvlan 4094\n   name
+    MLAG_PEER\n   trunk group MLAG\n!\ninterface Port-Channel47\n   description MLAG_PEER_leaf-1b_Po47\n
+    \  no shutdown\n   switchport\n   switchport mode trunk\n   switchport trunk group
+    MLAG\n!\ninterface Port-Channel49\n   description CAMPUS_SPINES_Po3\n   no shutdown\n
+    \  switchport\n   switchport trunk allowed vlan 110\n   switchport mode trunk\n
+    \  mlag 49\n!\ninterface Ethernet47\n   description MLAG_PEER_leaf-1b_Ethernet47\n
+    \  no shutdown\n   channel-group 47 mode active\n!\ninterface Ethernet48\n   description
+    MLAG_PEER_leaf-1b_Ethernet48\n   no shutdown\n   channel-group 47 mode active\n!\ninterface
+    Ethernet49\n   description SPINE-1_Ethernet3\n   no shutdown\n   channel-group
+    49 mode active\n!\ninterface Management0\n   description oob_management\n   no
+    shutdown\n   ip address 192.168.0.14/24\n!\ninterface Vlan4094\n   description
+    MLAG_PEER\n   no shutdown\n   mtu 9214\n   no autostate\n   ip address 192.168.0.4/31\n!\nmlag
+    configuration\n   domain-id IDF1\n   local-interface Vlan4094\n   peer-address
+    192.168.0.5\n   peer-link Port-Channel47\n   reload-delay mlag 300\n   reload-delay
+    non-mlag 330\n!\nip route 0.0.0.0/0 192.168.0.1\n!\nmanagement api http-commands\n
+    \  protocol https\n   no shutdown\n   !\n   vrf default\n      no shutdown\n!\nend\n"
+  AVD_CAMPUS__leaf-1b: "!RANCID-CONTENT-TYPE: arista\n!\nvlan internal order ascending
+    range 1006 1199\n!\ntransceiver qsfp default-mode 4x10G\n!\nservice routing protocols
+    model multi-agent\n!\nhostname leaf-1b\nip name-server vrf default 8.8.8.8\nip
+    name-server vrf default 192.168.2.1\ndns domain atd.lab\n!\nspanning-tree mode
+    mstp\nno spanning-tree vlan-id 4094\nspanning-tree mst 0 priority 16384\n!\nno
+    enable password\nno aaa root\n!\nvlan 110\n   name IDF1-Data\n!\nvlan 4094\n   name
+    MLAG_PEER\n   trunk group MLAG\n!\ninterface Port-Channel47\n   description MLAG_PEER_leaf-1a_Po47\n
+    \  no shutdown\n   switchport\n   switchport mode trunk\n   switchport trunk group
+    MLAG\n!\ninterface Port-Channel49\n   description CAMPUS_SPINES_Po3\n   no shutdown\n
+    \  switchport\n   switchport trunk allowed vlan 110\n   switchport mode trunk\n
+    \  mlag 49\n!\ninterface Ethernet47\n   description MLAG_PEER_leaf-1a_Ethernet47\n
+    \  no shutdown\n   channel-group 47 mode active\n!\ninterface Ethernet48\n   description
+    MLAG_PEER_leaf-1a_Ethernet48\n   no shutdown\n   channel-group 47 mode active\n!\ninterface
+    Ethernet49\n   description SPINE-2_Ethernet3\n   no shutdown\n   channel-group
+    49 mode active\n!\ninterface Management0\n   description oob_management\n   no
+    shutdown\n   ip address 192.168.0.15/24\n!\ninterface Vlan4094\n   description
+    MLAG_PEER\n   no shutdown\n   mtu 9214\n   no autostate\n   ip address 192.168.0.5/31\n!\nmlag
+    configuration\n   domain-id IDF1\n   local-interface Vlan4094\n   peer-address
+    192.168.0.4\n   peer-link Port-Channel47\n   reload-delay mlag 300\n   reload-delay
+    non-mlag 330\n!\nip route 0.0.0.0/0 192.168.0.1\n!\nmanagement api http-commands\n
+    \  protocol https\n   no shutdown\n   !\n   vrf default\n      no shutdown\n!\nend\n"
+  AVD_CAMPUS__leaf-2a: "!RANCID-CONTENT-TYPE: arista\n!\nvlan internal order ascending
+    range 1006 1199\n!\ntransceiver qsfp default-mode 4x10G\n!\nservice routing protocols
+    model multi-agent\n!\nhostname leaf-2a\nip name-server vrf default 8.8.8.8\nip
+    name-server vrf default 192.168.2.1\ndns domain atd.lab\n!\nspanning-tree mode
+    mstp\nspanning-tree mst 0 priority 16384\n!\nno enable password\nno aaa root\n!\ninterface
+    Port-Channel49\n   description CAMPUS_SPINES_Po4\n   no shutdown\n   switchport\n
+    \  switchport trunk allowed vlan none\n   switchport mode trunk\n!\ninterface
+    Ethernet49\n   description SPINE-1_Ethernet4\n   no shutdown\n   channel-group
+    49 mode active\n!\ninterface Ethernet50\n   description SPINE-2_Ethernet4\n   no
+    shutdown\n   channel-group 49 mode active\n!\ninterface Management0\n   description
+    oob_management\n   no shutdown\n   ip address 192.168.0.16/24\n!\nip route 0.0.0.0/0
+    192.168.0.1\n!\nmanagement api http-commands\n   protocol https\n   no shutdown\n
+    \  !\n   vrf default\n      no shutdown\n!\nend\n"
+  AVD_CAMPUS__leaf-3a: "!RANCID-CONTENT-TYPE: arista\n!\nvlan internal order ascending
+    range 1006 1199\n!\ntransceiver qsfp default-mode 4x10G\n!\nservice routing protocols
+    model multi-agent\n!\nhostname leaf-3a\nip name-server vrf default 8.8.8.8\nip
+    name-server vrf default 192.168.2.1\ndns domain atd.lab\n!\nspanning-tree mode
+    mstp\nno spanning-tree vlan-id 4094\nspanning-tree mst 0 priority 16384\n!\nno
+    enable password\nno aaa root\n!\nvlan 4094\n   name MLAG_PEER\n   trunk group
+    MLAG\n!\ninterface Port-Channel47\n   description MLAG_PEER_leaf-3b_Po47\n   no
+    shutdown\n   switchport\n   switchport mode trunk\n   switchport trunk group MLAG\n!\ninterface
+    Port-Channel49\n   description CAMPUS_SPINES_Po5\n   no shutdown\n   switchport\n
+    \  switchport trunk allowed vlan none\n   switchport mode trunk\n   mlag 49\n!\ninterface
+    Port-Channel511\n   description LEAF-3C_Po49\n   no shutdown\n   switchport\n
+    \  switchport trunk allowed vlan none\n   switchport mode trunk\n   mlag 511\n!\ninterface
+    Port-Channel521\n   description LEAF-3D_Po49\n   no shutdown\n   switchport\n
+    \  switchport trunk allowed vlan none\n   switchport mode trunk\n   mlag 521\n!\ninterface
+    Port-Channel531\n   description LEAF-3E_Po49\n   no shutdown\n   switchport\n
+    \  switchport trunk allowed vlan none\n   switchport mode trunk\n   mlag 531\n!\ninterface
+    Ethernet47\n   description MLAG_PEER_leaf-3b_Ethernet47\n   no shutdown\n   channel-group
+    47 mode active\n!\ninterface Ethernet48\n   description MLAG_PEER_leaf-3b_Ethernet48\n
+    \  no shutdown\n   channel-group 47 mode active\n!\ninterface Ethernet49\n   description
+    SPINE-1_Ethernet5\n   no shutdown\n   channel-group 49 mode active\n!\ninterface
+    Ethernet50\n   description SPINE-2_Ethernet5\n   no shutdown\n   channel-group
+    49 mode active\n!\ninterface Ethernet51/1\n   description LEAF-3C_Ethernet49\n
+    \  no shutdown\n   channel-group 511 mode active\n!\ninterface Ethernet52/1\n
+    \  description LEAF-3D_Ethernet49\n   no shutdown\n   channel-group 521 mode active\n!\ninterface
+    Ethernet53/1\n   description LEAF-3E_Ethernet49\n   no shutdown\n   channel-group
+    531 mode active\n!\ninterface Management0\n   description oob_management\n   no
+    shutdown\n   ip address 192.168.0.17/24\n!\ninterface Vlan4094\n   description
+    MLAG_PEER\n   no shutdown\n   mtu 9214\n   no autostate\n   ip address 192.168.0.10/31\n!\nmlag
+    configuration\n   domain-id IDF3_AGG\n   local-interface Vlan4094\n   peer-address
+    192.168.0.11\n   peer-link Port-Channel47\n   reload-delay mlag 300\n   reload-delay
+    non-mlag 330\n!\nip route 0.0.0.0/0 192.168.0.1\n!\nmanagement api http-commands\n
+    \  protocol https\n   no shutdown\n   !\n   vrf default\n      no shutdown\n!\nend\n"
+  AVD_CAMPUS__leaf-3b: "!RANCID-CONTENT-TYPE: arista\n!\nvlan internal order ascending
+    range 1006 1199\n!\ntransceiver qsfp default-mode 4x10G\n!\nservice routing protocols
+    model multi-agent\n!\nhostname leaf-3b\nip name-server vrf default 8.8.8.8\nip
+    name-server vrf default 192.168.2.1\ndns domain atd.lab\n!\nspanning-tree mode
+    mstp\nno spanning-tree vlan-id 4094\nspanning-tree mst 0 priority 16384\n!\nno
+    enable password\nno aaa root\n!\nvlan 4094\n   name MLAG_PEER\n   trunk group
+    MLAG\n!\ninterface Port-Channel47\n   description MLAG_PEER_leaf-3a_Po47\n   no
+    shutdown\n   switchport\n   switchport mode trunk\n   switchport trunk group MLAG\n!\ninterface
+    Port-Channel49\n   description CAMPUS_SPINES_Po5\n   no shutdown\n   switchport\n
+    \  switchport trunk allowed vlan none\n   switchport mode trunk\n   mlag 49\n!\ninterface
+    Port-Channel511\n   description LEAF-3C_Po49\n   no shutdown\n   switchport\n
+    \  switchport trunk allowed vlan none\n   switchport mode trunk\n   mlag 511\n!\ninterface
+    Port-Channel521\n   description LEAF-3D_Po49\n   no shutdown\n   switchport\n
+    \  switchport trunk allowed vlan none\n   switchport mode trunk\n   mlag 521\n!\ninterface
+    Port-Channel531\n   description LEAF-3E_Po49\n   no shutdown\n   switchport\n
+    \  switchport trunk allowed vlan none\n   switchport mode trunk\n   mlag 531\n!\ninterface
+    Ethernet47\n   description MLAG_PEER_leaf-3a_Ethernet47\n   no shutdown\n   channel-group
+    47 mode active\n!\ninterface Ethernet48\n   description MLAG_PEER_leaf-3a_Ethernet48\n
+    \  no shutdown\n   channel-group 47 mode active\n!\ninterface Ethernet49\n   description
+    SPINE-1_Ethernet6\n   no shutdown\n   channel-group 49 mode active\n!\ninterface
+    Ethernet50\n   description SPINE-2_Ethernet6\n   no shutdown\n   channel-group
+    49 mode active\n!\ninterface Ethernet51/1\n   description LEAF-3C_Ethernet50\n
+    \  no shutdown\n   channel-group 511 mode active\n!\ninterface Ethernet52/1\n
+    \  description LEAF-3D_Ethernet50\n   no shutdown\n   channel-group 521 mode active\n!\ninterface
+    Ethernet53/1\n   description LEAF-3E_Ethernet50\n   no shutdown\n   channel-group
+    531 mode active\n!\ninterface Management0\n   description oob_management\n   no
+    shutdown\n   ip address 192.168.0.18/24\n!\ninterface Vlan4094\n   description
+    MLAG_PEER\n   no shutdown\n   mtu 9214\n   no autostate\n   ip address 192.168.0.11/31\n!\nmlag
+    configuration\n   domain-id IDF3_AGG\n   local-interface Vlan4094\n   peer-address
+    192.168.0.10\n   peer-link Port-Channel47\n   reload-delay mlag 300\n   reload-delay
+    non-mlag 330\n!\nip route 0.0.0.0/0 192.168.0.1\n!\nmanagement api http-commands\n
+    \  protocol https\n   no shutdown\n   !\n   vrf default\n      no shutdown\n!\nend\n"
+  AVD_CAMPUS__leaf-3c: "!RANCID-CONTENT-TYPE: arista\n!\nvlan internal order ascending
+    range 1006 1199\n!\ntransceiver qsfp default-mode 4x10G\n!\nservice routing protocols
+    model multi-agent\n!\nhostname leaf-3c\nip name-server vrf default 8.8.8.8\nip
+    name-server vrf default 192.168.2.1\ndns domain atd.lab\n!\nspanning-tree mode
+    mstp\nspanning-tree mst 0 priority 16384\n!\nno enable password\nno aaa root\n!\ninterface
+    Port-Channel49\n   description IDF3_AGG_Po511\n   no shutdown\n   switchport\n
+    \  switchport trunk allowed vlan none\n   switchport mode trunk\n!\ninterface
+    Ethernet49\n   description LEAF-3A_Ethernet51/1\n   no shutdown\n   channel-group
+    49 mode active\n!\ninterface Ethernet50\n   description LEAF-3B_Ethernet51/1\n
+    \  no shutdown\n   channel-group 49 mode active\n!\ninterface Management0\n   description
+    oob_management\n   no shutdown\n   ip address 192.168.0.19/24\n!\nip route 0.0.0.0/0
+    192.168.0.1\n!\nmanagement api http-commands\n   protocol https\n   no shutdown\n
+    \  !\n   vrf default\n      no shutdown\n!\nend\n"
+  AVD_CAMPUS__leaf-3d: "!RANCID-CONTENT-TYPE: arista\n!\nvlan internal order ascending
+    range 1006 1199\n!\ntransceiver qsfp default-mode 4x10G\n!\nservice routing protocols
+    model multi-agent\n!\nhostname leaf-3d\nip name-server vrf default 8.8.8.8\nip
+    name-server vrf default 192.168.2.1\ndns domain atd.lab\n!\nspanning-tree mode
+    mstp\nspanning-tree mst 0 priority 16384\n!\nno enable password\nno aaa root\n!\ninterface
+    Port-Channel49\n   description IDF3_AGG_Po521\n   no shutdown\n   switchport\n
+    \  switchport trunk allowed vlan none\n   switchport mode trunk\n!\ninterface
+    Ethernet49\n   description LEAF-3A_Ethernet52/1\n   no shutdown\n   channel-group
+    49 mode active\n!\ninterface Ethernet50\n   description LEAF-3B_Ethernet52/1\n
+    \  no shutdown\n   channel-group 49 mode active\n!\ninterface Management0\n   description
+    oob_management\n   no shutdown\n   ip address 192.168.0.20/24\n!\nip route 0.0.0.0/0
+    192.168.0.1\n!\nmanagement api http-commands\n   protocol https\n   no shutdown\n
+    \  !\n   vrf default\n      no shutdown\n!\nend\n"
+  AVD_CAMPUS__leaf-3e: "!RANCID-CONTENT-TYPE: arista\n!\nvlan internal order ascending
+    range 1006 1199\n!\ntransceiver qsfp default-mode 4x10G\n!\nservice routing protocols
+    model multi-agent\n!\nhostname leaf-3e\nip name-server vrf default 8.8.8.8\nip
+    name-server vrf default 192.168.2.1\ndns domain atd.lab\n!\nspanning-tree mode
+    mstp\nspanning-tree mst 0 priority 16384\n!\nno enable password\nno aaa root\n!\ninterface
+    Port-Channel49\n   description IDF3_AGG_Po531\n   no shutdown\n   switchport\n
+    \  switchport trunk allowed vlan none\n   switchport mode trunk\n!\ninterface
+    Ethernet49\n   description LEAF-3A_Ethernet53/1\n   no shutdown\n   channel-group
+    49 mode active\n!\ninterface Ethernet50\n   description LEAF-3B_Ethernet53/1\n
+    \  no shutdown\n   channel-group 49 mode active\n!\ninterface Management0\n   description
+    oob_management\n   no shutdown\n   ip address 192.168.0.21/24\n!\nip route 0.0.0.0/0
+    192.168.0.1\n!\nmanagement api http-commands\n   protocol https\n   no shutdown\n
+    \  !\n   vrf default\n      no shutdown\n!\nend\n"
+  AVD_CAMPUS__spine-1: "!RANCID-CONTENT-TYPE: arista\n!\nvlan internal order ascending
+    range 1006 1199\n!\ntransceiver qsfp default-mode 4x10G\n!\nservice routing protocols
+    model multi-agent\n!\nhostname spine-1\nip name-server vrf default 8.8.8.8\nip
+    name-server vrf default 192.168.2.1\ndns domain atd.lab\n!\nspanning-tree mode
+    mstp\nno spanning-tree vlan-id 4093-4094\nspanning-tree mst 0 priority 4096\n!\nno
+    enable password\nno aaa root\n!\nvlan 110\n   name IDF1-Data\n!\nvlan 4093\n   name
+    LEAF_PEER_L3\n   trunk group LEAF_PEER_L3\n!\nvlan 4094\n   name MLAG_PEER\n   trunk
+    group MLAG\n!\ninterface Port-Channel3\n   description IDF1_Po49\n   no shutdown\n
+    \  switchport\n   switchport trunk allowed vlan 110\n   switchport mode trunk\n
+    \  mlag 3\n!\ninterface Port-Channel4\n   description LEAF-2A_Po49\n   no shutdown\n
+    \  switchport\n   switchport trunk allowed vlan none\n   switchport mode trunk\n
+    \  mlag 4\n!\ninterface Port-Channel5\n   description IDF3_AGG_Po49\n   no shutdown\n
+    \  switchport\n   switchport trunk allowed vlan none\n   switchport mode trunk\n
+    \  mlag 5\n!\ninterface Port-Channel49\n   description MLAG_PEER_spine-2_Po49\n
+    \  no shutdown\n   switchport\n   switchport mode trunk\n   switchport trunk group
+    LEAF_PEER_L3\n   switchport trunk group MLAG\n!\ninterface Ethernet3\n   description
+    LEAF-1A_Ethernet49\n   no shutdown\n   channel-group 3 mode active\n!\ninterface
+    Ethernet4\n   description LEAF-2A_Ethernet49\n   no shutdown\n   channel-group
+    4 mode active\n!\ninterface Ethernet5\n   description LEAF-3A_Ethernet49\n   no
+    shutdown\n   channel-group 5 mode active\n!\ninterface Ethernet6\n   description
+    LEAF-3B_Ethernet49\n   no shutdown\n   channel-group 5 mode active\n!\ninterface
+    Ethernet49\n   description MLAG_PEER_spine-2_Ethernet49\n   no shutdown\n   channel-group
+    49 mode active\n!\ninterface Ethernet50\n   description MLAG_PEER_spine-2_Ethernet50\n
+    \  no shutdown\n   channel-group 49 mode active\n!\ninterface Loopback0\n   description
+    Router_ID\n   no shutdown\n   ip address 172.16.1.1/32\n!\ninterface Management0\n
+    \  description oob_management\n   no shutdown\n   ip address 192.168.0.12/24\n!\ninterface
+    Vlan110\n   description IDF1-Data\n   no shutdown\n!\ninterface Vlan4093\n   description
+    MLAG_PEER_L3_PEERING\n   no shutdown\n   mtu 9214\n   ip address 10.1.1.0/31\n!\ninterface
+    Vlan4094\n   description MLAG_PEER\n   no shutdown\n   mtu 9214\n   no autostate\n
+    \  ip address 192.168.1.0/31\n!\nip virtual-router mac-address 00:1c:73:00:dc:01\n!\nip
+    routing\n!\nmlag configuration\n   domain-id CAMPUS_SPINES\n   local-interface
+    Vlan4094\n   peer-address 192.168.1.1\n   peer-link Port-Channel49\n   reload-delay
+    mlag 300\n   reload-delay non-mlag 330\n!\nip route 0.0.0.0/0 192.168.0.1\n!\nmanagement
+    api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf default\n      no
+    shutdown\n!\nend\n"
+  AVD_CAMPUS__spine-2: "!RANCID-CONTENT-TYPE: arista\n!\nvlan internal order ascending
+    range 1006 1199\n!\ntransceiver qsfp default-mode 4x10G\n!\nservice routing protocols
+    model multi-agent\n!\nhostname spine-2\nip name-server vrf default 8.8.8.8\nip
+    name-server vrf default 192.168.2.1\ndns domain atd.lab\n!\nspanning-tree mode
+    mstp\nno spanning-tree vlan-id 4093-4094\nspanning-tree mst 0 priority 4096\n!\nno
+    enable password\nno aaa root\n!\nvlan 110\n   name IDF1-Data\n!\nvlan 4093\n   name
+    LEAF_PEER_L3\n   trunk group LEAF_PEER_L3\n!\nvlan 4094\n   name MLAG_PEER\n   trunk
+    group MLAG\n!\ninterface Port-Channel3\n   description IDF1_Po49\n   no shutdown\n
+    \  switchport\n   switchport trunk allowed vlan 110\n   switchport mode trunk\n
+    \  mlag 3\n!\ninterface Port-Channel4\n   description LEAF-2A_Po49\n   no shutdown\n
+    \  switchport\n   switchport trunk allowed vlan none\n   switchport mode trunk\n
+    \  mlag 4\n!\ninterface Port-Channel5\n   description IDF3_AGG_Po49\n   no shutdown\n
+    \  switchport\n   switchport trunk allowed vlan none\n   switchport mode trunk\n
+    \  mlag 5\n!\ninterface Port-Channel49\n   description MLAG_PEER_spine-1_Po49\n
+    \  no shutdown\n   switchport\n   switchport mode trunk\n   switchport trunk group
+    LEAF_PEER_L3\n   switchport trunk group MLAG\n!\ninterface Ethernet3\n   description
+    LEAF-1B_Ethernet49\n   no shutdown\n   channel-group 3 mode active\n!\ninterface
+    Ethernet4\n   description LEAF-2A_Ethernet50\n   no shutdown\n   channel-group
+    4 mode active\n!\ninterface Ethernet5\n   description LEAF-3A_Ethernet50\n   no
+    shutdown\n   channel-group 5 mode active\n!\ninterface Ethernet6\n   description
+    LEAF-3B_Ethernet50\n   no shutdown\n   channel-group 5 mode active\n!\ninterface
+    Ethernet49\n   description MLAG_PEER_spine-1_Ethernet49\n   no shutdown\n   channel-group
+    49 mode active\n!\ninterface Ethernet50\n   description MLAG_PEER_spine-1_Ethernet50\n
+    \  no shutdown\n   channel-group 49 mode active\n!\ninterface Loopback0\n   description
+    Router_ID\n   no shutdown\n   ip address 172.16.1.2/32\n!\ninterface Management0\n
+    \  description oob_management\n   no shutdown\n   ip address 192.168.0.13/24\n!\ninterface
+    Vlan110\n   description IDF1-Data\n   no shutdown\n!\ninterface Vlan4093\n   description
+    MLAG_PEER_L3_PEERING\n   no shutdown\n   mtu 9214\n   ip address 10.1.1.1/31\n!\ninterface
+    Vlan4094\n   description MLAG_PEER\n   no shutdown\n   mtu 9214\n   no autostate\n
+    \  ip address 192.168.1.1/31\n!\nip virtual-router mac-address 00:1c:73:00:dc:01\n!\nip
+    routing\n!\nmlag configuration\n   domain-id CAMPUS_SPINES\n   local-interface
+    Vlan4094\n   peer-address 192.168.1.0\n   peer-link Port-Channel49\n   reload-delay
+    mlag 300\n   reload-delay non-mlag 330\n!\nip route 0.0.0.0/0 192.168.0.1\n!\nmanagement
+    api http-commands\n   protocol https\n   no shutdown\n   !\n   vrf default\n      no
+    shutdown\n!\nend\n"
+cvp_topology:
+  CAMPUS:
+    devices: []
+    parent_container: Tenant
+  CAMPUS_LEAVES:
+    devices: []
+    parent_container: CAMPUS
+  CAMPUS_SPINES:
+    devices:
+    - spine-1
+    - spine-2
+    parent_container: CAMPUS
+  IDF1:
+    devices:
+    - leaf-1a
+    - leaf-1b
+    parent_container: CAMPUS_LEAVES
+  IDF2:
+    devices:
+    - leaf-2a
+    parent_container: CAMPUS_LEAVES
+  IDF3_3C:
+    devices:
+    - leaf-3c
+    parent_container: CAMPUS_LEAVES
+  IDF3_3D:
+    devices:
+    - leaf-3d
+    parent_container: CAMPUS_LEAVES
+  IDF3_3E:
+    devices:
+    - leaf-3e
+    parent_container: CAMPUS_LEAVES
+  IDF3_AGG:
+    devices:
+    - leaf-3a
+    - leaf-3b
+    parent_container: CAMPUS_LEAVES

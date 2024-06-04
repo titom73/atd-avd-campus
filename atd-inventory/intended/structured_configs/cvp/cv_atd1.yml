@@ -1,0 +1,61 @@
+---
+cvp_devices:
+  - fqdn: leaf-1a
+    parentContainerName: IDF1
+    configlets:
+      - AVD_CAMPUS__leaf-1a
+  - fqdn: leaf-1b
+    parentContainerName: IDF1
+    configlets:
+      - AVD_CAMPUS__leaf-1b
+  - fqdn: leaf-2a
+    parentContainerName: IDF2
+    configlets:
+      - AVD_CAMPUS__leaf-2a
+  - fqdn: leaf-3a
+    parentContainerName: IDF3_AGG
+    configlets:
+      - AVD_CAMPUS__leaf-3a
+  - fqdn: leaf-3b
+    parentContainerName: IDF3_AGG
+    configlets:
+      - AVD_CAMPUS__leaf-3b
+  - fqdn: leaf-3c
+    parentContainerName: IDF3_3C
+    configlets:
+      - AVD_CAMPUS__leaf-3c
+  - fqdn: leaf-3d
+    parentContainerName: IDF3_3D
+    configlets:
+      - AVD_CAMPUS__leaf-3d
+  - fqdn: leaf-3e
+    parentContainerName: IDF3_3E
+    configlets:
+      - AVD_CAMPUS__leaf-3e
+  - fqdn: spine-1
+    parentContainerName: CAMPUS_SPINES
+    configlets:
+      - AVD_CAMPUS__spine-1
+  - fqdn: spine-2
+    parentContainerName: CAMPUS_SPINES
+    configlets:
+      - AVD_CAMPUS__spine-2
+cvp_containers:
+  CAMPUS:
+    parentContainerName: Tenant
+  CAMPUS_LEAVES:
+    parentContainerName: CAMPUS
+  CAMPUS_SPINES:
+    parentContainerName: CAMPUS
+  IDF1:
+    parentContainerName: CAMPUS_LEAVES
+  IDF2:
+    parentContainerName: CAMPUS_LEAVES
+  IDF3_3C:
+    parentContainerName: CAMPUS_LEAVES
+  IDF3_3D:
+    parentContainerName: CAMPUS_LEAVES
+  IDF3_3E:
+    parentContainerName: CAMPUS_LEAVES
+  IDF3_AGG:
+    parentContainerName: CAMPUS_LEAVES
