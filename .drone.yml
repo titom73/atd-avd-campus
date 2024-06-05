@@ -16,6 +16,5 @@ steps:
     commands:
       - pip install -r requirements.txt
       - ansible-galaxy collection install --force -r galaxy.yml
-      - "export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)"
-      - pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
+      - pip3 install -r /root/.ansible/collections/ansible_collections/arista/avd/requirements.txt
       - ansible-playbook playbooks/atd-fabric-build.yml
