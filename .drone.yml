@@ -1,0 +1,21 @@
+##############################################
+# RUN CI on PR / PUSH EVENT
+##############################################
+kind: pipeline
+type: docker
+name: atd-avd-campus-ci
+
+trigger:
+  event:
+    - push
+    - pull_request
+
+steps:
+  - name: install-and-build-configurations
+    image: python:3.11
+    commands:
+      - pip install -r requirements.txt
+      - ansible-galaxy collection install --force -r galaxy.yml
+      - export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
+      - pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
+      - ansible-playbook playbooks/atd-fabric-build.yml
