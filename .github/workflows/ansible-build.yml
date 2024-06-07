@@ -1,0 +1,29 @@
+---
+name: Test AVD build
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  file-changes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+      - name: Install AVD
+        run: |
+          pip install -r requirements.txt
+          ansible-galaxy collection install --force -r galaxy.yml
+      - name: Install AVD requirements
+        run: |
+          export ARISTA_AVD_DIR=$(ansible-galaxy collection list arista.avd --format yaml | head -1 | cut -d: -f1)
+          pip3 install -r ${ARISTA_AVD_DIR}/arista/avd/requirements.txt
+
+      - name: Execute AVD
+        run: |
+          ansible-playbook playbooks/atd-fabric-build.yml
