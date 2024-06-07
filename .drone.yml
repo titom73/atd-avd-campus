@@ -12,7 +12,8 @@ trigger:
 
 steps:
   - name: install-and-build-configurations
-    image: python:3.11
+    #image: python:3.11
+    image: git.as73.inetsix.net/inetsix-configs/ansible-runner:latest
     commands:
       - pip install -r requirements.txt
       - ansible-galaxy collection install --force -r galaxy.yml
