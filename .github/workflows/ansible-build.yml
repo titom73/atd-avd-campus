@@ -1,0 +1,25 @@
+---
+name: Linting and Testing Anta
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  file-changes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+      - name: Install AVD
+        run: |
+          pip install -r requirements.txt
+          ansible-galaxy collection install --force -r galaxy.yml
+      - name: Build AVD configuration
+        run: |
+          pip3 install -r /root/.ansible/collections/ansible_collections/arista/avd/requirements.txt
+          ansible-playbook playbooks/atd-fabric-build.yml
