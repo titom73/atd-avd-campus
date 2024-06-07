@@ -26,8 +26,6 @@
   - [Static Routes](#static-routes)
 - [Multicast](#multicast)
   - [IP IGMP Snooping](#ip-igmp-snooping)
-- [802.1X Port Security](#8021x-port-security)
-  - [802.1X Summary](#8021x-summary)
 - [VRF Instances](#vrf-instances)
   - [VRF Instances Summary](#vrf-instances-summary)
   - [VRF Instances Device Configuration](#vrf-instances-device-configuration)
@@ -178,51 +176,24 @@ vlan 210
 
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | Channel-Group |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
-| Ethernet1 |  IDF2 dot1x port | trunk phone | - | 110 | - | - |
-| Ethernet49 | SPINE-1_Ethernet4 | *trunk | *110,210 | *- | *- | 49 |
-| Ethernet50 | SPINE-2_Ethernet4 | *trunk | *110,210 | *- | *- | 49 |
+| Ethernet1/1 | SPINE-1_Ethernet4 | *trunk | *110,210 | *- | *- | 11 |
+| Ethernet2/1 | SPINE-2_Ethernet4 | *trunk | *110,210 | *- | *- | 11 |
 
 *Inherited from Port-Channel Interface
-
-##### Phone Interfaces
-
-| Interface | Mode | Native VLAN | Phone VLAN | Phone VLAN Mode |
-| --------- | ---- | ----------- | ---------- | --------------- |
-| Ethernet1 | trunk phone | 110 | 120 | untagged |
 
 #### Ethernet Interfaces Device Configuration
 
 ```eos
 !
-interface Ethernet1
-   description IDF2 dot1x port
-   no shutdown
-   switchport trunk native vlan 110
-   switchport phone vlan 120
-   switchport phone trunk untagged
-   switchport mode trunk phone
-   switchport
-   dot1x pae authenticator
-   dot1x authentication failure action traffic allow vlan 130
-   dot1x reauthentication
-   dot1x port-control auto
-   dot1x host-mode multi-host authenticated
-   dot1x mac based authentication
-   dot1x timeout tx-period 3
-   dot1x timeout reauth-period server
-   dot1x reauthorization request limit 3
-   spanning-tree portfast
-   spanning-tree bpduguard enable
-!
-interface Ethernet49
+interface Ethernet1/1
    description SPINE-1_Ethernet4
    no shutdown
-   channel-group 49 mode active
+   channel-group 11 mode active
 !
-interface Ethernet50
+interface Ethernet2/1
    description SPINE-2_Ethernet4
    no shutdown
-   channel-group 49 mode active
+   channel-group 11 mode active
 ```
 
 ### Port-Channel Interfaces
@@ -233,13 +204,13 @@ interface Ethernet50
 
 | Interface | Description | Type | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
 | --------- | ----------- | ---- | ---- | ----- | ----------- | ------------| --------------------- | ------------------ | ------- | -------- |
-| Port-Channel49 | CAMPUS_SPINES_Po4 | switched | trunk | 110,210 | - | - | - | - | - | - |
+| Port-Channel11 | CAMPUS_SPINES_Po4 | switched | trunk | 110,210 | - | - | - | - | - | - |
 
 #### Port-Channel Interfaces Device Configuration
 
 ```eos
 !
-interface Port-Channel49
+interface Port-Channel11
    description CAMPUS_SPINES_Po4
    no shutdown
    switchport
@@ -309,16 +280,6 @@ ip route 0.0.0.0/0 192.168.0.1
 
 ```eos
 ```
-
-## 802.1X Port Security
-
-### 802.1X Summary
-
-#### 802.1X Interfaces
-
-| Interface | PAE Mode | State | Phone Force Authorized | Reauthentication | Auth Failure Action | Host Mode | Mac Based Auth | Eapol |
-| --------- | -------- | ------| ---------------------- | ---------------- | ------------------- | --------- | -------------- | ------ |
-| Ethernet1 | authenticator | auto | - | True | allow vlan 130 | multi-host | True | - |
 
 ## VRF Instances
 

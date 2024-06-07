@@ -17,16 +17,16 @@
 
 | POD | Type | Node | Management IP | Platform | Provisioned in CloudVision | Serial Number |
 | --- | ---- | ---- | ------------- | -------- | -------------------------- | ------------- |
-| CAMPUS_AVD | leaf | leaf-1a | 192.168.0.14/24 | cEOSLab | Provisioned | - |
-| CAMPUS_AVD | leaf | leaf-1b | 192.168.0.15/24 | cEOSLab | Provisioned | - |
-| CAMPUS_AVD | leaf | leaf-2a | 192.168.0.16/24 | 720XP | Provisioned | - |
+| CAMPUS_AVD | leaf | leaf-1a | {{ hostvars["leaf-1a"].ansible_host }}/24 | cEOSLab | Provisioned | - |
+| CAMPUS_AVD | leaf | leaf-1b | {{ hostvars["leaf-1b"].ansible_host }}/24 | cEOSLab | Provisioned | - |
+| CAMPUS_AVD | leaf | leaf-2a | {{ hostvars["leaf-2a"].ansible_host }}/24 | 720XP | Provisioned | - |
 | CAMPUS_AVD | leaf | leaf-3a | 192.168.0.17/24 | cEOSLab | Provisioned | - |
 | CAMPUS_AVD | leaf | leaf-3b | 192.168.0.18/24 | cEOSLab | Provisioned | - |
 | CAMPUS_AVD | leaf | member-leaf-3c | 192.168.0.19/24 | cEOSLab | Provisioned | - |
 | CAMPUS_AVD | leaf | member-leaf-3d | 192.168.0.20/24 | cEOSLab | Provisioned | - |
 | CAMPUS_AVD | leaf | member-leaf-3e | 192.168.0.21/24 | cEOSLab | Provisioned | - |
-| CAMPUS_AVD | l3spine | spine-1 | 192.168.0.12/24 | cEOSLab | Provisioned | - |
-| CAMPUS_AVD | l3spine | spine-2 | 192.168.0.13/24 | cEOSLab | Provisioned | - |
+| CAMPUS_AVD | l3spine | spine-1 | {{ hostvars["spine-1"].ansible_host }}/24 | cEOSLab | Provisioned | - |
+| CAMPUS_AVD | l3spine | spine-2 | {{ hostvars["spine-2"].ansible_host }}/24 | cEOSLab | Provisioned | - |
 
 > Provision status is based on Ansible inventory declaration and do not represent real status from CloudVision.
 
@@ -43,8 +43,8 @@
 | leaf | leaf-1a | Ethernet48 | mlag_peer | leaf-1b | Ethernet48 |
 | leaf | leaf-1a | Ethernet49 | l3spine | spine-1 | Ethernet3 |
 | leaf | leaf-1b | Ethernet49 | l3spine | spine-2 | Ethernet3 |
-| leaf | leaf-2a | Ethernet49 | l3spine | spine-1 | Ethernet4 |
-| leaf | leaf-2a | Ethernet50 | l3spine | spine-2 | Ethernet4 |
+| leaf | leaf-2a | Ethernet1/1 | l3spine | spine-1 | Ethernet4 |
+| leaf | leaf-2a | Ethernet2/1 | l3spine | spine-2 | Ethernet4 |
 | leaf | leaf-3a | Ethernet47 | mlag_peer | leaf-3b | Ethernet47 |
 | leaf | leaf-3a | Ethernet48 | mlag_peer | leaf-3b | Ethernet48 |
 | leaf | leaf-3a | Ethernet49 | l3spine | spine-1 | Ethernet5 |

@@ -42,7 +42,7 @@ network_ports:
   #     - leaf-2a
   #   switch_ports:
   #     # - Ethernet1-48
-  #     - Ethernet1
+  #     - Ethernet3/1
   #   description: IDF2 dot1x port
   #   profile: PP-DOT1X
   #   native_vlan: 210

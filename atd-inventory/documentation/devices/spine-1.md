@@ -221,9 +221,9 @@ vlan 4094
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | Channel-Group |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
 | Ethernet3 | LEAF-1A_Ethernet49 | *trunk | *110,210 | *- | *- | 3 |
-| Ethernet4 | LEAF-2A_Ethernet49 | *trunk | *110,210 | *- | *- | 4 |
-| Ethernet5 | LEAF-3A_Ethernet49 | *trunk | *none | *- | *- | 5 |
-| Ethernet6 | LEAF-3B_Ethernet49 | *trunk | *none | *- | *- | 5 |
+| Ethernet4 | LEAF-2A_Ethernet1/1 | *trunk | *110,210 | *- | *- | 4 |
+| Ethernet5 | LEAF-3A_Ethernet49 | *trunk | *110,210 | *- | *- | 5 |
+| Ethernet6 | LEAF-3B_Ethernet49 | *trunk | *110,210 | *- | *- | 5 |
 | Ethernet49 | MLAG_PEER_spine-2_Ethernet49 | *trunk | *- | *- | *['LEAF_PEER_L3', 'MLAG'] | 49 |
 | Ethernet50 | MLAG_PEER_spine-2_Ethernet50 | *trunk | *- | *- | *['LEAF_PEER_L3', 'MLAG'] | 49 |
 
@@ -239,7 +239,7 @@ interface Ethernet3
    channel-group 3 mode active
 !
 interface Ethernet4
-   description LEAF-2A_Ethernet49
+   description LEAF-2A_Ethernet1/1
    no shutdown
    channel-group 4 mode active
 !
@@ -273,8 +273,8 @@ interface Ethernet50
 | Interface | Description | Type | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
 | --------- | ----------- | ---- | ---- | ----- | ----------- | ------------| --------------------- | ------------------ | ------- | -------- |
 | Port-Channel3 | IDF1_Po49 | switched | trunk | 110,210 | - | - | - | - | 3 | - |
-| Port-Channel4 | LEAF-2A_Po49 | switched | trunk | 110,210 | - | - | - | - | 4 | - |
-| Port-Channel5 | IDF3_AGG_Po49 | switched | trunk | none | - | - | - | - | 5 | - |
+| Port-Channel4 | LEAF-2A_Po11 | switched | trunk | 110,210 | - | - | - | - | 4 | - |
+| Port-Channel5 | IDF3_AGG_Po49 | switched | trunk | 110,210 | - | - | - | - | 5 | - |
 | Port-Channel49 | MLAG_PEER_spine-2_Po49 | switched | trunk | - | - | ['LEAF_PEER_L3', 'MLAG'] | - | - | - | - |
 
 #### Port-Channel Interfaces Device Configuration
@@ -290,7 +290,7 @@ interface Port-Channel3
    mlag 3
 !
 interface Port-Channel4
-   description LEAF-2A_Po49
+   description LEAF-2A_Po11
    no shutdown
    switchport
    switchport trunk allowed vlan 110,210
@@ -301,7 +301,7 @@ interface Port-Channel5
    description IDF3_AGG_Po49
    no shutdown
    switchport
-   switchport trunk allowed vlan none
+   switchport trunk allowed vlan 110,210
    switchport mode trunk
    mlag 5
 !

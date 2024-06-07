@@ -13,6 +13,9 @@
 - [Internal VLAN Allocation Policy](#internal-vlan-allocation-policy)
   - [Internal VLAN Allocation Policy Summary](#internal-vlan-allocation-policy-summary)
   - [Internal VLAN Allocation Policy Device Configuration](#internal-vlan-allocation-policy-device-configuration)
+- [VLANs](#vlans)
+  - [VLANs Summary](#vlans-summary)
+  - [VLANs Device Configuration](#vlans-device-configuration)
 - [Interfaces](#interfaces)
   - [Ethernet Interfaces](#ethernet-interfaces)
   - [Port-Channel Interfaces](#port-channel-interfaces)
@@ -143,6 +146,26 @@ spanning-tree mst 0 priority 16384
 vlan internal order ascending range 1006 1199
 ```
 
+## VLANs
+
+### VLANs Summary
+
+| VLAN ID | Name | Trunk Groups |
+| ------- | ---- | ------------ |
+| 110 | IDF1-Data | - |
+| 210 | IDF2-Data | - |
+
+### VLANs Device Configuration
+
+```eos
+!
+vlan 110
+   name IDF1-Data
+!
+vlan 210
+   name IDF2-Data
+```
+
 ## Interfaces
 
 ### Ethernet Interfaces
@@ -153,8 +176,8 @@ vlan internal order ascending range 1006 1199
 
 | Interface | Description | Mode | VLANs | Native VLAN | Trunk Group | Channel-Group |
 | --------- | ----------- | ---- | ----- | ----------- | ----------- | ------------- |
-| Ethernet49 | LEAF-3A_Ethernet53/1 | *trunk | *none | *- | *- | 49 |
-| Ethernet50 | LEAF-3B_Ethernet53/1 | *trunk | *none | *- | *- | 49 |
+| Ethernet49 | LEAF-3A_Ethernet53/1 | *trunk | *110,210 | *- | *- | 49 |
+| Ethernet50 | LEAF-3B_Ethernet53/1 | *trunk | *110,210 | *- | *- | 49 |
 
 *Inherited from Port-Channel Interface
 
@@ -181,7 +204,7 @@ interface Ethernet50
 
 | Interface | Description | Type | Mode | VLANs | Native VLAN | Trunk Group | LACP Fallback Timeout | LACP Fallback Mode | MLAG ID | EVPN ESI |
 | --------- | ----------- | ---- | ---- | ----- | ----------- | ------------| --------------------- | ------------------ | ------- | -------- |
-| Port-Channel49 | IDF3_AGG_Po531 | switched | trunk | none | - | - | - | - | - | - |
+| Port-Channel49 | IDF3_AGG_Po531 | switched | trunk | 110,210 | - | - | - | - | - | - |
 
 #### Port-Channel Interfaces Device Configuration
 
@@ -191,7 +214,7 @@ interface Port-Channel49
    description IDF3_AGG_Po531
    no shutdown
    switchport
-   switchport trunk allowed vlan none
+   switchport trunk allowed vlan 110,210
    switchport mode trunk
 ```
 

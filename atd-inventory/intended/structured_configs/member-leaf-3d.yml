@@ -62,7 +62,14 @@ port_channel_interfaces:
   type: switched
   shutdown: false
   mode: trunk
-  vlans: none
+  vlans: 110,210
+vlans:
+- id: 110
+  name: IDF1-Data
+  tenant: CAMPUS_SERVICES
+- id: 210
+  name: IDF2-Data
+  tenant: CAMPUS_SERVICES
 ip_igmp_snooping:
   globally_enabled: true
 metadata:

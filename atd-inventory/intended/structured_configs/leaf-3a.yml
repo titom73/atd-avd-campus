@@ -42,6 +42,12 @@ vlans:
   name: MLAG_PEER
   trunk_groups:
   - MLAG
+- id: 110
+  name: IDF1-Data
+  tenant: CAMPUS_SERVICES
+- id: 210
+  name: IDF2-Data
+  tenant: CAMPUS_SERVICES
 vlan_interfaces:
 - name: Vlan4094
   description: MLAG_PEER
@@ -62,28 +68,28 @@ port_channel_interfaces:
   type: switched
   shutdown: false
   mode: trunk
-  vlans: none
+  vlans: 110,210
   mlag: 49
 - name: Port-Channel511
   description: MEMBER-LEAF-3C_Po49
   type: switched
   shutdown: false
   mode: trunk
-  vlans: none
+  vlans: 110,210
   mlag: 511
 - name: Port-Channel521
   description: MEMBER-LEAF-3D_Po49
   type: switched
   shutdown: false
   mode: trunk
-  vlans: none
+  vlans: 110,210
   mlag: 521
 - name: Port-Channel531
   description: MEMBER-LEAF-3E_Po49
   type: switched
   shutdown: false
   mode: trunk
-  vlans: none
+  vlans: 110,210
   mlag: 531
 ethernet_interfaces:
 - name: Ethernet47

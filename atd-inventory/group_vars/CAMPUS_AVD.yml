@@ -25,10 +25,10 @@ l3spine:
       nodes:
         - name: spine-1
           id: 1
-          mgmt_ip: 192.168.0.12/24
+          mgmt_ip: '{{ hostvars["spine-1"].ansible_host }}/24'
         - name: spine-2
           id: 2
-          mgmt_ip: 192.168.0.13/24
+          mgmt_ip: '{{ hostvars["spine-2"].ansible_host }}/24'
 
 # IDF - Leaf Switches
 leaf:
@@ -47,12 +47,12 @@ leaf:
       nodes:
         - name: leaf-1a
           id: 3
-          mgmt_ip: 192.168.0.14/24
+          mgmt_ip: '{{ hostvars["leaf-1a"].ansible_host }}/24'
           uplink_switches: [spine-1]
           uplink_switch_interfaces: [Ethernet3]
         - name: leaf-1b
           id: 4
-          mgmt_ip: 192.168.0.15/24
+          mgmt_ip: '{{ hostvars["leaf-1b"].ansible_host }}/24'
           uplink_switches: [spine-2]
           uplink_switch_interfaces: [Ethernet3]
 
@@ -64,8 +64,8 @@ leaf:
       nodes:
         - name: leaf-2a
           id: 5
-          mgmt_ip: 192.168.0.16/24
-          uplink_interfaces: [Ethernet49, Ethernet50]
+          mgmt_ip: '{{ hostvars["leaf-2a"].ansible_host }}/24'
+          uplink_interfaces: [Ethernet1/1, Ethernet2/1]
           uplink_switches: [spine-1, spine-2]
           uplink_switch_interfaces: [Ethernet4, Ethernet4]
 
